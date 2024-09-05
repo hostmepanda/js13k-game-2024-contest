@@ -1,9 +1,12 @@
 {
   "name": "js13k-game-2024-contest",
   "version": "0.0.0",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "description": "Game for the js13k game contest with topic Triskaidekaphobia (fear of the number 13)",
   "main": "index.js",
   "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hostmepanda",
@@ -12,6 +15,7 @@
     "phaser": "3.80.1"
   },
   "devDependencies": {
-    "parcel": "2.12.0"
+    "parcel": "2.12.0",
+    "process": "0.11.10"
   }
 }
