@@ -4,4 +4,4 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 .idea
-/js13k-game-2024-contest.iml
+./.idea
