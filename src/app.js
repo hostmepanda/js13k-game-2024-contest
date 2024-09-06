@@ -1,5 +1,8 @@
 import {GameLoop, init, load, setImagePath, Sprite} from 'kontra'
-import {backgroundElevatorSprite, elevator, images, imageSizes} from './assets/images'
+import {
+	createStaticBackground,
+	elevator,
+} from './assets/images'
 
 let { canvas, context } = init()
 
@@ -8,53 +11,43 @@ const canvasSize =  {
 	height: 600,
 }
 
+function launchRound() {
+	const background = createStaticBackground(canvasSize)
+	const firstElevatorCoordinates = {
+		x: canvasSize.width / 8 * 2,
+		y: canvasSize.height / 2,
+	}
 
-const elevatorBackground = (x,y) => {
+	const secondElevatorCoordinates = {
+		x: canvasSize.width / 8 * 3.5,
+		y: canvasSize.height / 2,
+	}
 
-	const sprite  = Sprite({
-		x,
-		y,
-		image: new Image(),
-	})
+	const thirdElevatorCoordinates = {
+		x: canvasSize.width / 8 * 5,
+		y: canvasSize.height / 2,
+	}
 
-	sprite.image.src = images.backgroundElevator;
-
-	return sprite
-}
-
-const elevatorDoor = (x,y) => {
-	return Sprite({
-		x,
-		y,
-		image: new Image(),
-	}).image.src = images.elevatorDoor;
-}
-
-
-const elevatorImage = (x, y) => [
-	elevatorBackground(x, y),
-	elevatorDoor(x / 2 - imageSizes.door.width / 2 + 1, y),
-	elevatorDoor(x /2 + imageSizes.door.width / 2, y),
-]
-
-
-
-
-	const elevatorWithDoors = elevator(canvasSize.width / 2, canvasSize.height / 2)
+	const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, firstElevatorCoordinates.y)
+	const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, secondElevatorCoordinates.y)
+	const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, thirdElevatorCoordinates.y)
 
 	let loop = GameLoop({
 		update() {
-			elevatorWithDoors.map(sprite => {
-				sprite.update()
-				if (sprite.y > 0) {
-					// sprite.y = sprite.y - 1
-				}
-			})
+			leftElevatorWithDoors.update()
+			middleElevatorWithDoors.update()
+			rightElevatorWithDoors.update()
+
 		},
 		render() {
-			elevatorWithDoors.map(sprite => sprite.render())
+			background.render()
+			leftElevatorWithDoors.render()
+			middleElevatorWithDoors.render()
+			rightElevatorWithDoors.render()
 		}
 	});
 
 	loop.start();
+}
 
+launchRound()

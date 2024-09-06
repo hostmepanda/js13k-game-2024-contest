@@ -15,6 +15,10 @@ export const imageSizes = {
 		width: 45,
 		height: 122
 	},
+	elevatorFrame: {
+		width: 95,
+		height: 137,
+	},
 	background: {
 		width: 95,
 		height: 137,
@@ -41,29 +45,28 @@ export const imageSizes = {
 	}
 }
 
-export const backgroundElevatorSprite  = (x, y) => {
-	const sprite = Sprite({
-		x,
-		y,
-		image: new Image(),
-	})
-
-	sprite.image.src = images.backgroundElevator
-
-	return sprite
-}
-
 export const elevatorDoor  = (x, y) => {
-	const sprite = Sprite({
+	return Sprite({
 		x,
 		y,
-		image: new Image(),
+		width: imageSizes.door.width,
+		height: imageSizes.door.height,
+		color: 'rgb(70,203,204)',
 	})
-
-	sprite.image.src = images.elevatorDoor
-
-	return sprite
 }
+
+export const elevatorDoorLeft = (x, y) => {
+	const elevatorDoorSprite = elevatorDoor(x + 2, y + 10)
+
+	return elevatorDoorSprite
+}
+
+export const elevatorDoorRight = (x, y) => {
+	const elevatorDoorSprite = elevatorDoor(x + imageSizes.door.width + 3, y + 10)
+
+	return elevatorDoorSprite
+}
+
 
 export const doorBlinkTop = (x, y) => {
 	const sprite = Sprite({
@@ -89,16 +92,72 @@ export const doorBlinkBottom = (x, y) => {
 	return sprite
 }
 
-export const elevator = (x, y) => {
-	const background = backgroundElevatorSprite(x, y)
+export const wallSprite = (canvasSize) => {
+	return Sprite({
+		x: 0,
+		y: 0,
+		width: canvasSize.width,
+		height: 2 * canvasSize.height / 3,
+		color: 'rgb(34,89,131)',
+	})
+}
 
-	return [
-		background,
-		elevatorDoor(background.x + imageSizes.door.width / 2 - 20, y + 10),
-		elevatorDoor(background.x + imageSizes.door.width + 3 , y + 10),
-		doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
-		doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
-		doorBlinkBottom(background.x + imageSizes.door.width - imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
-		doorBlinkBottom(background.x + imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
+export const elevatorFrame = (x, y) => {
+	return Sprite({
+		x,
+		y,
+		width: imageSizes.elevatorFrame.width,
+		height: imageSizes.elevatorFrame.height,
+		color: 'rgb(52,125,158)',
+	})
+}
+
+export const floorSprite = (canvasSize) => {
+	return Sprite({
+		x: 0,
+		y: 2 * canvasSize.height / 3,
+		width: canvasSize.width,
+		height: canvasSize.height / 3,
+		color: 'rgb(1,16,49)',
+	})
+}
+
+export const elevator = (x, y) => {
+	const frame = elevatorFrame(x, y)
+	const group = [
+		frame,
+		elevatorDoorLeft(x, y),
+		elevatorDoorRight(x, y),
+		// doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
+		// doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
+		// doorBlinkBottom(background.x + imageSizes.door.width - imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
+		// doorBlinkBottom(background.x + imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
 	]
+
+	return {
+		group,
+		update() {
+			group.map(sprite => sprite.update())
+		},
+		render() {
+			group.map(sprite => sprite.render())
+		},
+	}
+}
+
+export const createStaticBackground = (canvasSize) => {
+	const backGroundWall = wallSprite(canvasSize)
+	const backGroundFloor = floorSprite(canvasSize)
+
+	return {
+		group: [backGroundWall, backGroundFloor],
+		update() {
+			backGroundWall.update()
+			backGroundFloor.update()
+		},
+		render() {
+			backGroundWall.render()
+			backGroundFloor.render()
+		},
+	}
 }
