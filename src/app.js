@@ -1,8 +1,7 @@
-import {GameLoop, init, initPointer, track} from 'kontra'
-import {
-	createStaticBackground,
-	elevator, stairCaseDoor, wallText,
-} from './assets/images'
+import {GameLoop, init, initPointer} from 'kontra'
+
+import {initFloor1} from './floors/floor-1'
+import {initFloor2} from './floors/floor-2'
 
 const { canvas, context } = init()
 const pointer = initPointer()
@@ -12,49 +11,81 @@ const canvasSize =  {
 	height: 600,
 }
 
+const cameraPosition = {
+	x: 0,
+}
+
+const floorCameraPoints = {
+	floor1: {
+		y: 13 * canvasSize.height,
+	},
+	floor2: {
+		y: 12 * canvasSize.height,
+	},
+	floor3: {
+		y: 11 * canvasSize.height,
+	},
+	floor4: {
+		y: 10 * canvasSize.height,
+	},
+	floor5: {
+		y: 9 * canvasSize.height,
+	},
+	floor6: {
+		y: 8 * canvasSize.height,
+	},
+	floor7: {
+		y: 7 * canvasSize.height,
+	},
+	floor8: {
+		y: 6 * canvasSize.height,
+	},
+	floor9: {
+		y: 5 * canvasSize.height,
+	},
+	floor10: {
+		y: 4 * canvasSize.height,
+	},
+	floor11: {
+		y: 3 * canvasSize.height,
+	},
+	floor12: {
+		y: 2 * canvasSize.height,
+	},
+	floor13: {
+		y: 0,
+	},
+}
+
 function launchRound() {
-	let floorDigit = 1
+	let activeFloor = 1
 
-	const background = createStaticBackground(canvasSize)
-	const firstElevatorCoordinates = {
-		x: canvasSize.width / 8 * 2,
-		y: canvasSize.height / 2 - 20,
+	const leftStairCaseDoorHandler = () => {
+		console.log('--Active floor: ', {activeFloor})
 	}
 
-	const secondElevatorCoordinates = {
-		x: canvasSize.width / 8 * 3.5,
-		y: canvasSize.height / 2 - 20,
+	const rightStairCaseDoorHandler = () => {
+		console.log('--Active floor: ', {activeFloor})
 	}
 
-	const thirdElevatorCoordinates = {
-		x: canvasSize.width / 8 * 5,
-		y: canvasSize.height / 2 - 20,
+	const floor1Handlers= {
+		handlers: {
+			leftStairCaseDoorHandler,
+			rightStairCaseDoorHandler,
+		},
 	}
 
-	const leftStairCaseDoor = stairCaseDoor(track)(canvasSize.width / 15 , canvasSize.height / 2 - 20)
-	const rightStairCaseDoor = stairCaseDoor(track)(canvasSize.width / 8 * 6.5, canvasSize.height / 2 - 20)
-
-	const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, firstElevatorCoordinates.y)
-	const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, secondElevatorCoordinates.y)
-	const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, thirdElevatorCoordinates.y)
-	const floorNumber = wallText(canvasSize.width / 2, canvasSize.height / 4, `${floorDigit} FLOOR`)
+	const floor1 = initFloor1(canvasSize, floorCameraPoints)(floor1Handlers)
+	const floor2 = initFloor2(canvasSize, floorCameraPoints)(floor1Handlers)
 
 	let loop = GameLoop({
 		update() {
-			leftElevatorWithDoors.update()
-			middleElevatorWithDoors.update()
-			rightElevatorWithDoors.update()
-			leftStairCaseDoor.update()
-			rightStairCaseDoor.update()
+			floor1.update()
+			floor2.update()
 		},
 		render() {
-			background.render()
-			floorNumber.render()
-			leftElevatorWithDoors.render()
-			middleElevatorWithDoors.render()
-			rightElevatorWithDoors.render()
-			leftStairCaseDoor.render()
-			rightStairCaseDoor.render()
+			floor1.render()
+			floor2.render()
 		}
 	});
 

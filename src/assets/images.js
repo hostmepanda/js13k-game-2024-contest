@@ -39,27 +39,25 @@ export const imageSizes = {
 	}
 }
 
-export const elevatorDoor  = (x, y) => {
+export const elevatorDoor  = (onDown) => (x, y) => {
 	return Sprite({
 		x,
 		y,
 		width: imageSizes.door.width,
 		height: imageSizes.door.height,
 		color: 'rgb(70,203,204)',
-		onDown: function() {
-			console.log('elevatorDoor clicked!');
-		}
+		onDown,
 	})
 }
 
 export const elevatorDoorLeft = (x, y) => {
-	const elevatorDoorSprite = elevatorDoor(x + 2, y + 10)
+	const elevatorDoorSprite = elevatorDoor()(x + 2, y + 10)
 
 	return elevatorDoorSprite
 }
 
 export const elevatorDoorRight = (x, y) => {
-	const elevatorDoorSprite = elevatorDoor(x + imageSizes.door.width + 3, y + 10)
+	const elevatorDoorSprite = elevatorDoor()(x + imageSizes.door.width + 3, y + 10)
 
 	return elevatorDoorSprite
 }
@@ -89,13 +87,13 @@ export const doorBlinkBottom = (x, y) => {
 	return sprite
 }
 
-export const wallSprite = (canvasSize) => {
+export const wallSprite = (canvasSize, {x, y} = {x: 0, y: 0}) => (color = 'rgb(34,89,131)') => {
 	return Sprite({
-		x: 0,
-		y: 0,
+		x,
+		y,
 		width: canvasSize.width,
 		height: 2 * canvasSize.height / 3,
-		color: 'rgb(34,89,131)',
+		color,
 	})
 }
 
@@ -109,10 +107,10 @@ export const elevatorFrame = (x, y) => {
 	})
 }
 
-export const floorSprite = (canvasSize) => {
+export const floorSprite = (canvasSize, { x, y } = { x:0, y: 0 }) => {
 	return Sprite({
-		x: 0,
-		y: 2 * canvasSize.height / 3,
+		x: x,
+		y: y * canvasSize.height / 3,
 		width: canvasSize.width,
 		height: canvasSize.height / 3,
 		color: 'rgb(1,16,49)',
@@ -142,10 +140,10 @@ export const elevator = (x, y) => {
 	}
 }
 
-export const stairCaseDoor = (track) => (x, y) => {
+export const stairCaseDoor = (track, clickHandler) => (x, y) => {
 	const door = elevatorFrame(x, y)
-	const leftDoor = elevatorDoor(x + 2, y + 3)
-	const rightDoor = elevatorDoor(x + imageSizes.door.width + 3, y + 3)
+	const leftDoor = elevatorDoor(clickHandler)(x + 2, y + 3)
+	const rightDoor = elevatorDoor(clickHandler)(x + imageSizes.door.width + 3, y + 3)
 
 	track(leftDoor)
 	track(rightDoor)
@@ -172,9 +170,9 @@ export const stairCaseDoor = (track) => (x, y) => {
 	}
 }
 
-export const createStaticBackground = (canvasSize) => {
-	const backGroundWall = wallSprite(canvasSize)
-	const backGroundFloor = floorSprite(canvasSize)
+export const createStaticBackground = (canvasSize, color, xyCoords) => {
+	const backGroundWall = wallSprite(canvasSize, xyCoords)(color)
+	const backGroundFloor = floorSprite(canvasSize, xyCoords)
 
 	return {
 		group: [backGroundWall, backGroundFloor],
