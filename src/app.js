@@ -1,7 +1,7 @@
 import {GameLoop, init, load, setImagePath, Sprite} from 'kontra'
 import {
 	createStaticBackground,
-	elevator, starCaseDoor,
+	elevator, stairCaseDoor, wallText,
 } from './assets/images'
 
 let { canvas, context } = init()
@@ -28,12 +28,13 @@ function launchRound() {
 		y: canvasSize.height / 2 - 20,
 	}
 
-	const leftStairCaseDoor = starCaseDoor(canvasSize.width / 15 , canvasSize.height / 2 - 20)
-	const rightStairCaseDoor = starCaseDoor(canvasSize.width / 8 * 6.5, canvasSize.height / 2 - 20)
+	const leftStairCaseDoor = stairCaseDoor(canvasSize.width / 15 , canvasSize.height / 2 - 20)
+	const rightStairCaseDoor = stairCaseDoor(canvasSize.width / 8 * 6.5, canvasSize.height / 2 - 20)
 
 	const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, firstElevatorCoordinates.y)
 	const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, secondElevatorCoordinates.y)
 	const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, thirdElevatorCoordinates.y)
+	const floorNumber = wallText(canvasSize.width / 2, canvasSize.height / 4, 'FLOOR 1')
 
 	let loop = GameLoop({
 		update() {
@@ -45,6 +46,7 @@ function launchRound() {
 		},
 		render() {
 			background.render()
+			floorNumber.render()
 			leftElevatorWithDoors.render()
 			middleElevatorWithDoors.render()
 			rightElevatorWithDoors.render()

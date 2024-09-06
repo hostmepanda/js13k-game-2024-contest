@@ -1,4 +1,4 @@
-import {Sprite} from 'kontra'
+import {Sprite, Text} from 'kontra'
 
 export const images = {
 	doorBlink: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAABRCAYAAACkJjRZAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAn9JREFUaN7VmN2OgjAQRj+7ulr3Yt//QaXg8rM3kDTNFEpnpq2TmCgRcjxOy8dclmUBo34B3IJjDsDL+/wDwIJXf4Zx8pWABIDee28APMCvjgP6JI4NACbvswVwYUK+OUavAL6J407D5naxnLKRXz4K2xy2a+aAfgG4x375WhdJm7mgKTafQjanXFATsek0beaAUn33t74ke7MPdo9ToDFTYW9yN/cltHkWlDI1Ktmcc0FL2nSxxZFSd+K747raJW06yuYZUFvTZirofd3k/ZqUbC4c0BI25z2bKaDfawAJbQ4lbaaApth8CNjsU26JsboRwZiyaZig3ZHNI1Bb4J4+pdjcA6WCcfgXPYRsggNaYqWHbXQalArGc3DRojZjoPZg+5CwOZ6xSYFSwXip2ZsxUGrz1rD55oBS200YFCRsvnJOMoVtho8tp0FjNqv3ZghKBWP/kUDC5jvXpg9qD3rzXtOmvx19HTxgPaVGMxxQW2Cld8zzYYhgPAQ2rYDNSQJ0L8o9iLYobhORlT4J2uwlbFKgkjYXKZsh6KBgc9YA7YRtOgiWUbLpJG36oO5gMlLV5gZKjbVVhwm5oJ2gzVnD5gbavM1w1UvY7KFURtBmp2UzDM4cm5Omzb3gXCV4pATna6nRjGRwbs5mLDirjmYkg3NzNrmgWaOZGqAvFKxc0OzRTGnQDoUrB/Rd2mYuaHGbOaDs0Uwp0Co2z4KKjGZKgFazeQa0r2kzFXSpbTMVVHQ0owWqMkzQAHUt2DwCbcbmEajaMEESdG7J5h5oUzZjoKqjGUnQrjWbFOjUok0KtEOjZQKbwyeANmvTBx1btumDNm1zAy06muGAvvAB9Q9jodHvy+jl0QAAAABJRU5ErkJggg==',
@@ -139,7 +139,7 @@ export const elevator = (x, y) => {
 	}
 }
 
-export const starCaseDoor = (x, y) => {
+export const stairCaseDoor = (x, y) => {
 	const door = elevatorFrame(x, y)
 	const leftDoor = elevatorDoor(x + 2, y + 3)
 	const rightDoor = elevatorDoor(x + imageSizes.door.width + 3, y + 3)
@@ -181,4 +181,19 @@ export const createStaticBackground = (canvasSize) => {
 			backGroundFloor.render()
 		},
 	}
+}
+
+export const wallText = (x, y, text, color = 'rgb(255, 255, 255)') => {
+	const textSprite = Text({
+		text,
+		font: '40px Arial',
+		color,
+		x,
+		y,
+	});
+
+	textSprite.x = textSprite.x - textSprite.width / 2
+	textSprite.y = textSprite.y - textSprite.height / 2
+
+	return textSprite
 }
