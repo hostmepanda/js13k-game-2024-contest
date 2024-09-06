@@ -1,10 +1,11 @@
-import {GameLoop, init, load, setImagePath, Sprite} from 'kontra'
+import {GameLoop, init, initPointer, track} from 'kontra'
 import {
 	createStaticBackground,
 	elevator, stairCaseDoor, wallText,
 } from './assets/images'
 
-let { canvas, context } = init()
+const { canvas, context } = init()
+const pointer = initPointer()
 
 const canvasSize =  {
 	width: 800,
@@ -12,6 +13,8 @@ const canvasSize =  {
 }
 
 function launchRound() {
+	let floorDigit = 1
+
 	const background = createStaticBackground(canvasSize)
 	const firstElevatorCoordinates = {
 		x: canvasSize.width / 8 * 2,
@@ -28,13 +31,13 @@ function launchRound() {
 		y: canvasSize.height / 2 - 20,
 	}
 
-	const leftStairCaseDoor = stairCaseDoor(canvasSize.width / 15 , canvasSize.height / 2 - 20)
-	const rightStairCaseDoor = stairCaseDoor(canvasSize.width / 8 * 6.5, canvasSize.height / 2 - 20)
+	const leftStairCaseDoor = stairCaseDoor(track)(canvasSize.width / 15 , canvasSize.height / 2 - 20)
+	const rightStairCaseDoor = stairCaseDoor(track)(canvasSize.width / 8 * 6.5, canvasSize.height / 2 - 20)
 
 	const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, firstElevatorCoordinates.y)
 	const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, secondElevatorCoordinates.y)
 	const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, thirdElevatorCoordinates.y)
-	const floorNumber = wallText(canvasSize.width / 2, canvasSize.height / 4, 'FLOOR 1')
+	const floorNumber = wallText(canvasSize.width / 2, canvasSize.height / 4, `${floorDigit} FLOOR`)
 
 	let loop = GameLoop({
 		update() {

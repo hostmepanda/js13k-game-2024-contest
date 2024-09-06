@@ -46,6 +46,9 @@ export const elevatorDoor  = (x, y) => {
 		width: imageSizes.door.width,
 		height: imageSizes.door.height,
 		color: 'rgb(70,203,204)',
+		onDown: function() {
+			console.log('elevatorDoor clicked!');
+		}
 	})
 }
 
@@ -139,10 +142,13 @@ export const elevator = (x, y) => {
 	}
 }
 
-export const stairCaseDoor = (x, y) => {
+export const stairCaseDoor = (track) => (x, y) => {
 	const door = elevatorFrame(x, y)
 	const leftDoor = elevatorDoor(x + 2, y + 3)
 	const rightDoor = elevatorDoor(x + imageSizes.door.width + 3, y + 3)
+
+	track(leftDoor)
+	track(rightDoor)
 
 	leftDoor.color = 'rgb(0,0,0)'
 	rightDoor.color = 'rgb(0,0,0)'
