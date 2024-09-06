@@ -139,6 +139,33 @@ export const elevator = (x, y) => {
 	}
 }
 
+export const starCaseDoor = (x, y) => {
+	const door = elevatorFrame(x, y)
+	const leftDoor = elevatorDoor(x + 2, y + 3)
+	const rightDoor = elevatorDoor(x + imageSizes.door.width + 3, y + 3)
+
+	leftDoor.color = 'rgb(0,0,0)'
+	rightDoor.color = 'rgb(0,0,0)'
+
+	leftDoor.width = leftDoor.width + 4
+	leftDoor.height = leftDoor.height + 12
+	rightDoor.height = rightDoor.height + 12
+
+	return {
+		group: [door, leftDoor, rightDoor],
+		update() {
+			door.update()
+			leftDoor.update()
+			rightDoor.update()
+		},
+		render() {
+			door.render()
+			leftDoor.render()
+			rightDoor.render()
+		},
+	}
+}
+
 export const createStaticBackground = (canvasSize) => {
 	const backGroundWall = wallSprite(canvasSize)
 	const backGroundFloor = floorSprite(canvasSize)
