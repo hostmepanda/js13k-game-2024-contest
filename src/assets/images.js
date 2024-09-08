@@ -1,4 +1,4 @@
-import {Sprite, Text} from 'kontra'
+import {Sprite, Text, track} from 'kontra'
 
 export const images = {
 	doorBlink: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAABRCAYAAACkJjRZAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAn9JREFUaN7VmN2OgjAQRj+7ulr3Yt//QaXg8rM3kDTNFEpnpq2TmCgRcjxOy8dclmUBo34B3IJjDsDL+/wDwIJXf4Zx8pWABIDee28APMCvjgP6JI4NACbvswVwYUK+OUavAL6J407D5naxnLKRXz4K2xy2a+aAfgG4x375WhdJm7mgKTafQjanXFATsek0beaAUn33t74ke7MPdo9ToDFTYW9yN/cltHkWlDI1Ktmcc0FL2nSxxZFSd+K747raJW06yuYZUFvTZirofd3k/ZqUbC4c0BI25z2bKaDfawAJbQ4lbaaApth8CNjsU26JsboRwZiyaZig3ZHNI1Bb4J4+pdjcA6WCcfgXPYRsggNaYqWHbXQalArGc3DRojZjoPZg+5CwOZ6xSYFSwXip2ZsxUGrz1rD55oBS200YFCRsvnJOMoVtho8tp0FjNqv3ZghKBWP/kUDC5jvXpg9qD3rzXtOmvx19HTxgPaVGMxxQW2Cld8zzYYhgPAQ2rYDNSQJ0L8o9iLYobhORlT4J2uwlbFKgkjYXKZsh6KBgc9YA7YRtOgiWUbLpJG36oO5gMlLV5gZKjbVVhwm5oJ2gzVnD5gbavM1w1UvY7KFURtBmp2UzDM4cm5Omzb3gXCV4pATna6nRjGRwbs5mLDirjmYkg3NzNrmgWaOZGqAvFKxc0OzRTGnQDoUrB/Rd2mYuaHGbOaDs0Uwp0Co2z4KKjGZKgFazeQa0r2kzFXSpbTMVVHQ0owWqMkzQAHUt2DwCbcbmEajaMEESdG7J5h5oUzZjoKqjGUnQrjWbFOjUok0KtEOjZQKbwyeANmvTBx1btumDNm1zAy06muGAvvAB9Q9jodHvy+jl0QAAAABJRU5ErkJggg==',
@@ -117,29 +117,6 @@ export const floorSprite = (canvasSize, { x, y } = { x:0, y: 0 }) => {
 	})
 }
 
-export const elevator = (x, y) => {
-	const frame = elevatorFrame(x, y)
-	const group = [
-		frame,
-		elevatorDoorLeft(x, y),
-		elevatorDoorRight(x, y),
-		// doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
-		// doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
-		// doorBlinkBottom(background.x + imageSizes.door.width - imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
-		// doorBlinkBottom(background.x + imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
-	]
-
-	return {
-		group,
-		update() {
-			group.map(sprite => sprite.update())
-		},
-		render() {
-			group.map(sprite => sprite.render())
-		},
-	}
-}
-
 export const stairCaseDoor = (track, clickHandler) => (x, y) => {
 	const door = elevatorFrame(x, y)
 	const leftDoor = elevatorDoor(clickHandler)(x + 2, y + 3)
@@ -200,4 +177,19 @@ export const wallText = (x, y, text, color = 'rgb(255, 255, 255)') => {
 	textSprite.y = textSprite.y - textSprite.height / 2
 
 	return textSprite
+}
+
+export const closedDoorStairCase = (track, onDown) => (x, y) => {
+	const doorSprite =  Sprite({
+		x,
+		y,
+		width: imageSizes.door.width * 2,
+		height: imageSizes.door.height,
+		color: 'rgb(105,66,0)',
+		onDown,
+	})
+
+	track(doorSprite)
+
+	return doorSprite
 }

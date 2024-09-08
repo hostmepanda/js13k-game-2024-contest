@@ -1,5 +1,6 @@
 import {track} from 'kontra'
-import {createStaticBackground, elevator, stairCaseDoor, wallText} from '../assets/images'
+import {createStaticBackground, stairCaseDoor, wallText} from '../assets/images'
+import {floorColor} from '../colors'
 
 export const initFloor1 = (canvasSize, floorCameraPoints) =>
 	({
@@ -9,7 +10,7 @@ export const initFloor1 = (canvasSize, floorCameraPoints) =>
 		 },
 	 }) => {
 		const floorShiftAxisY = floorCameraPoints.floor1.y
-		const background = createStaticBackground(canvasSize, 'rgb(34,89,131)', { x: 0, y:  floorShiftAxisY })
+		const background = createStaticBackground(canvasSize, floorColor.floor1, { x: 0, y:  floorShiftAxisY })
 
 
 		const firstElevatorCoordinates = {
@@ -32,24 +33,24 @@ export const initFloor1 = (canvasSize, floorCameraPoints) =>
 		const leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorShiftAxisY + canvasSize.height / 2 - 20)
 		const rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorShiftAxisY + canvasSize.height / 2 - 20)
 
-		const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, floorShiftAxisY + firstElevatorCoordinates.y)
-		const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, floorShiftAxisY + secondElevatorCoordinates.y)
-		const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, floorShiftAxisY + thirdElevatorCoordinates.y)
+		// const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, floorShiftAxisY + firstElevatorCoordinates.y)
+		// const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, floorShiftAxisY + secondElevatorCoordinates.y)
+		// const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, floorShiftAxisY + thirdElevatorCoordinates.y)
 
 		return {
 			update() {
-				leftElevatorWithDoors.update()
-				middleElevatorWithDoors.update()
-				rightElevatorWithDoors.update()
+				// leftElevatorWithDoors.update()
+				// middleElevatorWithDoors.update()
+				// rightElevatorWithDoors.update()
 				leftStairCaseDoor.update()
 				rightStairCaseDoor.update()
 			},
 			render() {
 				background.render()
 				wallFloorNumber.render()
-				leftElevatorWithDoors.render()
-				middleElevatorWithDoors.render()
-				rightElevatorWithDoors.render()
+				// leftElevatorWithDoors.render()
+				// middleElevatorWithDoors.render()
+				// rightElevatorWithDoors.render()
 				leftStairCaseDoor.render()
 				rightStairCaseDoor.render()
 			},

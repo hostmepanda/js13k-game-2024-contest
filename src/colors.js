@@ -1,0 +1,15 @@
+export const floorColor = {
+	floor1: 'rgb(161, 234, 255)',
+	floor2: 'rgb(149, 223, 250)',
+	floor3: 'rgb(137, 212, 245)',
+	floor4: 'rgb(126, 201, 240)',
+	floor5: 'rgb(114, 191, 234)',
+	floor6: 'rgb(102, 180, 229)',
+	floor7: 'rgb(90, 169, 224)',
+	floor8: 'rgb(78, 158, 219)',
+	floor9: 'rgb(67, 147, 214)',
+	floor10: 'rgb(55, 136, 208)',
+	floor11: 'rgb(43, 126, 203)',
+	floor12: 'rgb(39, 107, 168)',
+	floor13: 'rgb(34, 89, 131)',
+}
