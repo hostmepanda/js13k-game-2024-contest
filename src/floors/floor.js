@@ -1,5 +1,5 @@
 import {track} from 'kontra'
-import {closedDoorStairCase, createStaticBackground, stairCaseDoor, wallText} from '../assets/images'
+import {closedDoorStairCase, createStaticBackground, elevator, stairCaseDoor, wallText} from '../assets/images'
 
 export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber) =>
 	({
@@ -41,15 +41,15 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
 		}
 
-		// const leftElevatorWithDoors = elevator(firstElevatorCoordinates.x, floorShiftAxisY + firstElevatorCoordinates.y)
-		// const middleElevatorWithDoors = elevator(secondElevatorCoordinates.x, floorShiftAxisY + secondElevatorCoordinates.y)
-		// const rightElevatorWithDoors = elevator(thirdElevatorCoordinates.x, floorShiftAxisY + thirdElevatorCoordinates.y)
+		const leftElevatorWithDoors = elevator(track)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
+		const middleElevatorWithDoors = elevator(track)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
+		const rightElevatorWithDoors = elevator(track)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
 
 		return {
 			update() {
-				// leftElevatorWithDoors.update()
-				// middleElevatorWithDoors.update()
-				// rightElevatorWithDoors.update()
+				leftElevatorWithDoors.update()
+				middleElevatorWithDoors.update()
+				rightElevatorWithDoors.update()
 				leftStairCaseDoor.update()
 				if (floorNumber < 13) {
 					rightStairCaseDoor.update()
@@ -58,9 +58,9 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			render() {
 				background.render()
 				wallFloorNumber.render()
-				// leftElevatorWithDoors.render()
-				// middleElevatorWithDoors.render()
-				// rightElevatorWithDoors.render()
+				leftElevatorWithDoors.render()
+				middleElevatorWithDoors.render()
+				rightElevatorWithDoors.render()
 				leftStairCaseDoor.render()
 				if (floorNumber < 13) {
 					rightStairCaseDoor.render()

@@ -179,6 +179,29 @@ export const wallText = (x, y, text, color = 'rgb(255, 255, 255)') => {
 	return textSprite
 }
 
+export const elevator = (track, handler) => (x, y) => {
+	const frame = elevatorFrame(x, y)
+	const group = [
+		frame,
+		elevatorDoorLeft(x, y),
+		elevatorDoorRight(x, y),
+		// doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
+		// doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
+		// doorBlinkBottom(background.x + imageSizes.door.width - imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
+		// doorBlinkBottom(background.x + imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
+	]
+
+	return {
+		group,
+		update() {
+			group.map(sprite => sprite.update())
+		},
+		render() {
+			group.map(sprite => sprite.render())
+		},
+	}
+}
+
 export const closedDoorStairCase = (track, onDown) => (x, y) => {
 	const doorSprite =  Sprite({
 		x,
