@@ -132,6 +132,7 @@ export const stairCaseDoor = (track, clickHandler) => (x, y) => {
 	leftDoor.height = leftDoor.height + 12
 	rightDoor.height = rightDoor.height + 12
 
+
 	return {
 		group: [door, leftDoor, rightDoor],
 		update() {
@@ -164,10 +165,10 @@ export const createStaticBackground = (canvasSize, color, xyCoords) => {
 	}
 }
 
-export const wallText = (x, y, text, color = 'rgb(255, 255, 255)') => {
+export const wallText = (x, y, text, color = 'rgb(255, 255, 255)', size= 40) => {
 	const textSprite = Text({
 		text,
-		font: '40px Arial',
+		font: `${size}px Arial`,
 		color,
 		x,
 		y,

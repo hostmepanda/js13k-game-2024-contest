@@ -27,18 +27,25 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 		}
 		let rightStairCaseDoor;
 		let leftStairCaseDoor;
+		let floorText;
+		let arrowUp;
+		let arrowDown;
 
 		const background = createStaticBackground(canvasSize, color, { x: floorStartX, y:  floorStartY })
 		const wallFloorNumber = wallText(canvasSize.width / 2, floorStartY + canvasSize.height / 4, textOnTheWall)
 
 		if (floorNumber === 1) {
 			leftStairCaseDoor = closedDoorStairCase(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
+			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key might be on the 13th floor')
 		} else {
 			leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
+			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'DOWN', 'rgb(255,0,0)', 20)
 		}
+
 
 		if (floorNumber < 13) {
 			rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
+			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
 		}
 
 		const leftElevatorWithDoors = elevator(track)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
@@ -51,8 +58,16 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 				middleElevatorWithDoors.update()
 				rightElevatorWithDoors.update()
 				leftStairCaseDoor.update()
+
 				if (floorNumber < 13) {
 					rightStairCaseDoor.update()
+					arrowUp.update()
+				}
+				if (floorNumber === 1) {
+					floorText.update()
+				}
+				if (floorNumber > 1) {
+					arrowDown.update()
 				}
 			},
 			render() {
@@ -64,6 +79,13 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 				leftStairCaseDoor.render()
 				if (floorNumber < 13) {
 					rightStairCaseDoor.render()
+					arrowUp.render()
+				}
+				if (floorNumber === 1) {
+					floorText.render()
+				}
+				if (floorNumber > 1) {
+					arrowDown.render()
 				}
 			},
 		}
