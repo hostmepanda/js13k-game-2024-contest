@@ -63,23 +63,19 @@ function launchRound() {
 	let activeFloor = 1
 
 	const leftStairCaseDoorHandler = () => {
-		console.log(`--Active floor: ${activeFloor}`, {activeFloor})
 		if (activeFloor === 1) {
 			return
 		}
 		activeFloor = activeFloor - 1
 		cameraPosition.y = floorCameraPoints[`floor${activeFloor}`].y
-		console.log(`--Active floor: ${activeFloor}`, {activeFloor})
 	}
 
 	const rightStairCaseDoorHandler = () => {
-		console.log(`--Active floor: ${activeFloor} `, {activeFloor})
 		if (activeFloor === 13) {
 			return
 		}
 		activeFloor = activeFloor + 1
 		cameraPosition.y = floorCameraPoints[`floor${activeFloor}`].y
-		console.log(`--Active floor: ${activeFloor}`, {activeFloor})
 	}
 
 	const floor1Handlers= {
