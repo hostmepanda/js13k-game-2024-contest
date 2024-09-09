@@ -138,6 +138,7 @@ function launchRound() {
 				floorColor[`floor${floorNumber}`],
 				`FLOOR ${floorNumber}`,
 				floorNumber,
+				renderContext,
 			)(floor1Handlers)
 		}
 	)
