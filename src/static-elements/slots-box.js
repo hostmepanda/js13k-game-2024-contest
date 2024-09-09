@@ -36,11 +36,5 @@ export const createSlotsBox = (context) => (x, y) => {
 
 	track(slotBoxItem)
 
-
-
-	return {
-		group: [slotBoxItem],
-		update: () => slotBoxItem.update(),
-		render: () => slotBoxItem.render(),
-	}
+	return slotBoxItem
 }

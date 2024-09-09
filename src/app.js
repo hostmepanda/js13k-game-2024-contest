@@ -1,4 +1,4 @@
-import {GameLoop, init, initPointer, pointerOver, pointerPressed, track} from 'kontra'
+import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kontra'
 import {gemSprite} from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
@@ -76,6 +76,7 @@ const gameElementsState = {
 const gameArtefactsStates = [
 	{
 		item: gemSprite(gameElementsState['yellow-gem'])(track)(),
+		type: 'yellow-gem',
 	}
 ]
 
@@ -129,21 +130,78 @@ function launchRound() {
 			})
 			itemSlots.update()
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
-				const distance = Math.sqrt((item.x - (pointer.x - 15)) ** 2 + (item.y - ((pointer.y - 15)+ (activeFloor - 1) * canvasSize.height)) ** 2)
+				console.log(JSON.stringify(gameElementsState[item.type]))
+				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (activeFloor - 1) * canvasSize.height
+				const distance = Math.sqrt(
+					(item.x - (pointer.x - 15)) ** 2 + (item.y - (gameElementsState[item.type].isPicked ? pointer.y - 15 : ((pointer.y - 15)+ (activeFloor - 1) * canvasSize.height))) ** 2)
+				const isColliding = itemSlots.x <= item.x && item.x <= itemSlots.x + itemSlots.width
+					&& itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + itemSlots.height
+
 				if (distance <= pointer.radius) {
 					if (pointerPressed('left')) {
 						gameElementsState[item.type].isDragging = true
+						gameElementsState[item.type].isPicked = false
 					}
 				}
 
 				if (gameElementsState[item.type].isDragging && !pointerPressed('left')) {
 					gameElementsState[item.type].isDragging = false
 					gameElementsState[item.type].y = pointer.y - 15
+					if (!isColliding) {
+						gameElementsState[item.type].currentFloor = activeFloor
+					}
 				}
 
 				if (gameElementsState[item.type].isDragging) {
 					gameElementsState[item.type].x = pointer.x - 15
 					gameElementsState[item.type].y = pointer.y - 15 + (activeFloor - 1) * canvasSize.height
+				}
+
+				if (isColliding && !pointerPressed('left')) {
+					gameElementsState[item.type].isPicked = true
+					if (itemSlots.x <= item.x && item.x <= itemSlots.x + 50 && !(item.x > itemSlots.x + 50)) {
+						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
+							gameElementsState[item.type].slotNumber = 1
+							gameElementsState[item.type].x = itemSlots.x + 15 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15 - item.height / 2
+						} else {
+							gameElementsState[item.type].slotNumber = 5
+							gameElementsState[item.type].x = itemSlots.x + 15
+							gameElementsState[item.type].y = itemSlots.y + 15 + 50 - item.height / 2
+						}
+					} else if (itemSlots.x + 50 <= item.x && item.x <= itemSlots.x + 100 && !(item.x > itemSlots.x + 100)) {
+						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
+							gameElementsState[item.type].slotNumber = 2
+							gameElementsState[item.type].x = itemSlots.x + 15 + 50 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15 - item.height / 2
+						} else {
+							gameElementsState[item.type].slotNumber = 6
+							gameElementsState[item.type].x = itemSlots.x + 15 + 50 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15 + 50 - item.height / 2
+						}
+					} else if (itemSlots.x + 100 <= item.x && item.x <= itemSlots.x + 150 && !(item.x > itemSlots.x + 150)) {
+						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
+							gameElementsState[item.type].slotNumber = 3
+							gameElementsState[item.type].x = itemSlots.x + 15 + 100 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15 - item.height / 2
+						} else {
+							gameElementsState[item.type].slotNumber = 7
+							gameElementsState[item.type].x = itemSlots.x + 15 + 100 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15 + 50 - item.height / 2
+						}
+					} else if (itemSlots.x + 150 <= item.x && item.x <= itemSlots.x + 200 && !(item.x > itemSlots.x + 200)) {
+						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
+							gameElementsState[item.type].slotNumber = 4
+							gameElementsState[item.type].x = itemSlots.x + 15 + 150 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15
+						} else {
+							gameElementsState[item.type].slotNumber = 8
+							gameElementsState[item.type].x = itemSlots.x + 15 + 150 - item.width / 4
+							gameElementsState[item.type].y = itemSlots.y + 15 + 50
+						}
+					} else {
+						gameElementsState[item.type].slotNumber = null
+					}
 				}
 
 				item.update()
@@ -152,9 +210,11 @@ function launchRound() {
 		render() {
 			itemSlots.render()
 
-			// gameArtefactsStates
-			// 	.filter(({ isUsed, isPicked }) => !isUsed || isPicked)
-			// 	.forEach(({ item}) => item.render())
+			Object.entries(gameElementsState)
+				.filter(([, {isPicked}]) => isPicked)
+				.forEach(([type]) => {
+					gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
+				})
 
 			renderContext.save()
 
@@ -162,11 +222,18 @@ function launchRound() {
 			floorStages.forEach((floor) => {
 				floor.render()
 			})
-			gameArtefactsStates
-				.forEach(({ item}) => {
-						item.render()
-				})
-			// Restore the context to original state
+			// gameArtefactsStates
+			// 	.forEach(({ item}) => {
+			// 			item.render()
+			// 	})
+					Object
+						.entries(gameElementsState)
+						.filter(([, {isPicked}]) => !isPicked)
+						.forEach(([type]) => {
+							gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
+						})
+
+							// Restore the context to original state
 			renderContext.restore()
 
 		}

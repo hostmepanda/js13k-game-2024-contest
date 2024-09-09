@@ -237,8 +237,8 @@ export const gemSprite = (itemState) => (track) => () => {
 			this.y = itemState.y
 		} else {
 			if (itemState.isPicked) {
-				this.x = itemState.slotNumber * 50 + 10
-				this.y = itemState.slotNumber % 4 * 50 + 10
+				this.x = itemState.x
+				this.y = itemState.y
 			}
 
 			if (!itemState.isPicked) {
