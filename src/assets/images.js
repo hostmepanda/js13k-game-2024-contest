@@ -229,11 +229,12 @@ export const gemSprite = (track, pointerPressed) => (x, y) => {
 	sprite.image.src = images.yellowGem
 
 	track(sprite)
+
 	sprite.update = function() {
 		if (pointerPressed('left')) {
 			const pointer = getPointer()// Check if the mouse button is being held down
-			this.x = pointer.x + 1;
-			this.y = pointer.y + 1;
+			this.x = pointer.x + pointer.radius + 1;
+			this.y = pointer.y + pointer.radius + 1;
 		}
 	}
 
