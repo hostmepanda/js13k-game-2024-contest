@@ -1,6 +1,7 @@
-import {GameLoop, init, initPointer} from 'kontra'
+import {GameLoop, init, initPointer, track} from 'kontra'
 import {floorColor} from './colors'
-import {initFloor} from './floors/floor'
+import {initFloor} from './static-elements/floor'
+import {createSlotsBox} from './static-elements/slots-box'
 
 const { canvas, context } = init()
 const pointer = initPointer()
@@ -97,27 +98,34 @@ function launchRound() {
 		}
 	)
 
+	const itemSlots = createSlotsBox(renderContext,() => {console.log('-- slot box clicked')})(
+		5,
+		500,
+	)
+
 	let loop = GameLoop({
 		update() {
-				floorStages.forEach((floor) => {
-					floor.update()
-				})
+			floorStages.forEach((floor) => {
+				floor.update()
+			})
+			itemSlots.update()
 		},
 		render() {
-			renderContext.save();
+			itemSlots.render()
 
-			renderContext.translate(0, -cameraPosition.y);
+			renderContext.save()
+
+			renderContext.translate(0, -cameraPosition.y)
 			floorStages.forEach((floor) => {
 				floor.render()
 			})
-
 			// Restore the context to original state
-			renderContext.restore();
+			renderContext.restore()
 
 		}
 	});
 
-	loop.start();
+	loop.start()
 }
 
 launchRound()

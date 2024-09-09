@@ -1,9 +1,8 @@
-import {track, pointerPressed} from 'kontra'
+import {track} from 'kontra'
 import {
 	closedDoorStairCase,
 	createStaticBackground,
 	elevator,
-	gemSprite,
 	stairCaseDoor,
 	wallText
 } from '../assets/images'
