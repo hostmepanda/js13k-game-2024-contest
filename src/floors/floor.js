@@ -37,14 +37,13 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 		let floorText;
 		let arrowUp;
 		let arrowDown;
-		let gem;
 
 		const background = createStaticBackground(canvasSize, color, { x: floorStartX, y:  floorStartY })
 		const wallFloorNumber = wallText(canvasSize.width / 2, floorStartY + canvasSize.height / 4, textOnTheWall)
 
 		if (floorNumber === 1) {
 			leftStairCaseDoor = closedDoorStairCase(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
-			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key might be on the 13th floor')
+			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key is on the floor 13')
 		} else {
 			leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
 			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'DOWN', 'rgb(255,0,0)', 20)
@@ -54,15 +53,6 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 		if (floorNumber < 13) {
 			rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
 			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
-		}
-
-
-		if (floorNumber === 5) {
-			gem = gemSprite(
-				track,
-				pointerPressed,
-			)
-			(canvasSize.width / 2, floorStartY + 4 * canvasSize.height / 5)
 		}
 
 		const leftElevatorWithDoors = elevator(track)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
@@ -75,7 +65,6 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 				middleElevatorWithDoors.update()
 				rightElevatorWithDoors.update()
 				leftStairCaseDoor.update()
-				gem?.update()
 
 				if (floorNumber < 13) {
 					rightStairCaseDoor.update()
@@ -95,7 +84,6 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 				middleElevatorWithDoors.render()
 				rightElevatorWithDoors.render()
 				leftStairCaseDoor.render()
-				gem?.render()
 				if (floorNumber < 13) {
 					rightStairCaseDoor.render()
 					arrowUp.render()
