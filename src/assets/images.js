@@ -225,6 +225,8 @@ export const gemSprite = (itemState) => (track) => () => {
 		type: 'yellow-gem',
 		x: itemState.x,
 		y: itemState.y,
+		width: 50,
+		height: 50,
 		image: new Image(),
 	})
 
@@ -257,6 +259,8 @@ export const diamondSprite = (itemState) => (track) => () => {
 		type: 'diamond',
 		x: itemState.x,
 		y: itemState.y,
+		width: 50,
+		height: 50,
 		image: new Image(),
 	})
 

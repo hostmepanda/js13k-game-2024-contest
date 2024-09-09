@@ -14,6 +14,8 @@ const canvasSize =  {
 	height: 600,
 }
 
+const SLOTS = [1, 2, 3, 4, 5, 6, 7, 8]
+
 const floorCameraPoints = {
 	floor1: {
 		y: 0
@@ -94,6 +96,10 @@ const gameArtefactsStates = [
 	}
 ]
 
+function isBetween(left, right, value) {
+	return left <= value && value <= right && !(value > right)
+}
+
 function launchRound() {
 	let activeFloor = 1
 	let draggingElementId = null
@@ -137,13 +143,72 @@ function launchRound() {
 	)
 
 	const itemSlots = createSlotsBox(renderContext)(5, 500)
+	const slotCoordinates = {
+		slot1: {
+			x0: itemSlots.x,
+			x1: itemSlots.x + 50,
+			y0: itemSlots.y,
+			y1: itemSlots.y + 50,
+		},
+		slot2: {
+			x0: itemSlots.x + 50,
+			x1: itemSlots.x + 100,
+			y0: itemSlots.y,
+			y1: itemSlots.y + 50,
+		},
+		slot3: {
+			x0: itemSlots.x + 100,
+			x1: itemSlots.x + 150,
+			y0: itemSlots.y,
+			y1: itemSlots.y + 50,
+		},
+		slot4: {
+			x0: itemSlots.x + 150,
+			x1: itemSlots.x + 200,
+			y0: itemSlots.y,
+			y1: itemSlots.y + 50,
+		},
+		slot5: {
+			x0: itemSlots.x,
+			x1: itemSlots.x + 50,
+			y0: itemSlots.y + 50,
+			y1: itemSlots.y + 100,
+		},
+		slot6: {
+			x0: itemSlots.x + 50,
+			x1: itemSlots.x + 100,
+			y0: itemSlots.y + 50,
+			y1: itemSlots.y + 100,
+		},
+		slot7: {
+			x0: itemSlots.x + 100,
+			x1: itemSlots.x + 150,
+			y0: itemSlots.y + 50,
+			y1: itemSlots.y + 100,
+		},
+		slot8: {
+			x0: itemSlots.x + 150,
+			x1: itemSlots.x + 200,
+			y0: itemSlots.y + 50,
+			y1: itemSlots.y + 100,
+		},
+	}
+
 
 	let loop = GameLoop({
 		update() {
+			const busySlots = Object
+				.values(gameElementsState)
+				.filter(({ slotNumber }) => !!slotNumber)
+				.map(({slotNumber}) => slotNumber)
+
+			const freeSlots = SLOTS.filter((slot) => !busySlots.includes(slot))
+
 			floorStages.forEach((floor) => {
 				floor.update()
 			})
 			itemSlots.update()
+
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
 				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (activeFloor - 1) * canvasSize.height
 				const distance = Math.sqrt(
@@ -156,6 +221,7 @@ function launchRound() {
 						gameElementsState[item.type].isDragging = true
 						draggingElementId = item.id
 						gameElementsState[item.type].isPicked = false
+						slotBoxState.items = slotBoxState.items.filter((slot) => slot !== item.type)
 					}
 				}
 
@@ -163,8 +229,16 @@ function launchRound() {
 					gameElementsState[item.type].isDragging = false
 					draggingElementId = false
 					gameElementsState[item.type].y = pointer.y - 15
+
+					slotBoxState.items.push(item.type)
+					gameElementsState[item.type].slotNumber = slotBoxState.items.length
+					gameElementsState[item.type].isPicked = true
+
 					if (!isColliding) {
 						gameElementsState[item.type].currentFloor = activeFloor
+						gameElementsState[item.type].slotNumber = null
+						gameElementsState[item.type].isPicked = false
+						slotBoxState.items = slotBoxState.items.filter((type) => type !== item.type)
 					}
 				}
 
@@ -173,55 +247,18 @@ function launchRound() {
 					gameElementsState[item.type].y = pointer.y - 15 + (activeFloor - 1) * canvasSize.height
 				}
 
-				if (isColliding && !pointerPressed('left')) {
-					gameElementsState[item.type].isPicked = true
-					if (itemSlots.x <= item.x && item.x <= itemSlots.x + 50 && !(item.x > itemSlots.x + 50)) {
-						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
-							gameElementsState[item.type].slotNumber = 1
-							gameElementsState[item.type].x = itemSlots.x + 15 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15 - item.height / 2
-						} else {
-							gameElementsState[item.type].slotNumber = 5
-							gameElementsState[item.type].x = itemSlots.x + 15
-							gameElementsState[item.type].y = itemSlots.y + 15 + 50 - item.height / 2
-						}
-					} else if (itemSlots.x + 50 <= item.x && item.x <= itemSlots.x + 100 && !(item.x > itemSlots.x + 100)) {
-						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
-							gameElementsState[item.type].slotNumber = 2
-							gameElementsState[item.type].x = itemSlots.x + 15 + 50 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15 - item.height / 2
-						} else {
-							gameElementsState[item.type].slotNumber = 6
-							gameElementsState[item.type].x = itemSlots.x + 15 + 50 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15 + 50 - item.height / 2
-						}
-					} else if (itemSlots.x + 100 <= item.x && item.x <= itemSlots.x + 150 && !(item.x > itemSlots.x + 150)) {
-						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
-							gameElementsState[item.type].slotNumber = 3
-							gameElementsState[item.type].x = itemSlots.x + 15 + 100 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15 - item.height / 2
-						} else {
-							gameElementsState[item.type].slotNumber = 7
-							gameElementsState[item.type].x = itemSlots.x + 15 + 100 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15 + 50 - item.height / 2
-						}
-					} else if (itemSlots.x + 150 <= item.x && item.x <= itemSlots.x + 200 && !(item.x > itemSlots.x + 200)) {
-						if (itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + 50 && !(absolutionItemY > itemSlots.y + 50)) {
-							gameElementsState[item.type].slotNumber = 4
-							gameElementsState[item.type].x = itemSlots.x + 15 + 150 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15
-						} else {
-							gameElementsState[item.type].slotNumber = 8
-							gameElementsState[item.type].x = itemSlots.x + 15 + 150 - item.width / 4
-							gameElementsState[item.type].y = itemSlots.y + 15 + 50
-						}
-					} else {
-						gameElementsState[item.type].slotNumber = null
-					}
-				}
-
 				item.update()
 			})
+
+			slotBoxState.items.forEach(type => {
+				const itemConfig = gameElementsState[type]
+				if (itemConfig.slotNumber === null) {
+					return
+				}
+				itemConfig.x = slotCoordinates[`slot${itemConfig.slotNumber}`].x0 + 9
+				itemConfig.y = slotCoordinates[`slot${itemConfig.slotNumber}`].y0 + 9
+			})
+
 		},
 		render() {
 			itemSlots.render()
