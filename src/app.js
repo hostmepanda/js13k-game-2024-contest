@@ -1,5 +1,5 @@
 import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kontra'
-import {gemSprite} from './assets/images'
+import {diamondSprite, gemSprite} from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
 import {createSlotsBox} from './static-elements/slots-box'
@@ -70,13 +70,25 @@ const gameElementsState = {
 		isDragging: false,
 		x: 400,
 		y: 450,
-	}
+	},
+	'diamond': {
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 4,
+		slotNumber: null,
+		isDragging: false,
+		x: 200,
+		y: 450,
+	},
 }
 
 const gameArtefactsStates = [
 	{
 		item: gemSprite(gameElementsState['yellow-gem'])(track)(),
 		type: 'yellow-gem',
+	}, {
+		item: diamondSprite(gameElementsState['diamond'])(track)(),
+		type: 'diamond',
 	}
 ]
 
@@ -130,7 +142,6 @@ function launchRound() {
 			})
 			itemSlots.update()
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
-				console.log(JSON.stringify(gameElementsState[item.type]))
 				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (activeFloor - 1) * canvasSize.height
 				const distance = Math.sqrt(
 					(item.x - (pointer.x - 15)) ** 2 + (item.y - (gameElementsState[item.type].isPicked ? pointer.y - 15 : ((pointer.y - 15)+ (activeFloor - 1) * canvasSize.height))) ** 2)
@@ -222,16 +233,13 @@ function launchRound() {
 			floorStages.forEach((floor) => {
 				floor.render()
 			})
-			// gameArtefactsStates
-			// 	.forEach(({ item}) => {
-			// 			item.render()
-			// 	})
-					Object
-						.entries(gameElementsState)
-						.filter(([, {isPicked}]) => !isPicked)
-						.forEach(([type]) => {
-							gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
-						})
+
+			Object
+				.entries(gameElementsState)
+				.filter(([, {isPicked}]) => !isPicked)
+				.forEach(([type]) => {
+					gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
+				})
 
 							// Restore the context to original state
 			renderContext.restore()
