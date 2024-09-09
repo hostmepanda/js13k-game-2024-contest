@@ -1,6 +1,6 @@
 import {Sprite, track} from 'kontra'
 
-export const createSlotsBox = (context, handler) => (x, y) => {
+export const createSlotsBox = (context) => (x, y) => {
 
 	const slotBoxItem = Sprite({
 		x,

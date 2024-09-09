@@ -62,6 +62,9 @@ const cameraPosition = {
 
 function launchRound() {
 	let activeFloor = 1
+	const slotBoxState = {
+		items: [],
+	}
 
 	const leftStairCaseDoorHandler = () => {
 		if (activeFloor === 1) {
@@ -98,10 +101,8 @@ function launchRound() {
 		}
 	)
 
-	const itemSlots = createSlotsBox(renderContext,() => {console.log('-- slot box clicked')})(
-		5,
-		500,
-	)
+	const itemSlots = createSlotsBox(renderContext)(5, 500)
+
 
 	let loop = GameLoop({
 		update() {
