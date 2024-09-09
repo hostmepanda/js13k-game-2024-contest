@@ -1,10 +1,11 @@
-import {GameLoop, init, initPointer, track} from 'kontra'
+import {GameLoop, init, initPointer, pointerOver, pointerPressed, track} from 'kontra'
+import {gemSprite} from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
 import {createSlotsBox} from './static-elements/slots-box'
 
 const { canvas, context } = init()
-const pointer = initPointer()
+const pointer = initPointer({ radius: 10 })
 
 const renderContext = canvas.getContext('2d')
 
@@ -60,6 +61,24 @@ const cameraPosition = {
 	x: 0,
 }
 
+const gameElementsState = {
+	'yellow-gem': {
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 2,
+		slotNumber: null,
+		isDragging: false,
+		x: 400,
+		y: 450,
+	}
+}
+
+const gameArtefactsStates = [
+	{
+		item: gemSprite(gameElementsState['yellow-gem'])(track)(),
+	}
+]
+
 function launchRound() {
 	let activeFloor = 1
 	const slotBoxState = {
@@ -103,16 +122,39 @@ function launchRound() {
 
 	const itemSlots = createSlotsBox(renderContext)(5, 500)
 
-
 	let loop = GameLoop({
 		update() {
 			floorStages.forEach((floor) => {
 				floor.update()
 			})
 			itemSlots.update()
+			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
+				const distance = Math.sqrt((item.x - (pointer.x - 15)) ** 2 + (item.y - ((pointer.y - 15)+ (activeFloor - 1) * canvasSize.height)) ** 2)
+				if (distance <= pointer.radius) {
+					if (pointerPressed('left')) {
+						gameElementsState[item.type].isDragging = true
+					}
+				}
+
+				if (gameElementsState[item.type].isDragging && !pointerPressed('left')) {
+					gameElementsState[item.type].isDragging = false
+					gameElementsState[item.type].y = pointer.y - 15
+				}
+
+				if (gameElementsState[item.type].isDragging) {
+					gameElementsState[item.type].x = pointer.x - 15
+					gameElementsState[item.type].y = pointer.y - 15 + (activeFloor - 1) * canvasSize.height
+				}
+
+				item.update()
+			})
 		},
 		render() {
 			itemSlots.render()
+
+			// gameArtefactsStates
+			// 	.filter(({ isUsed, isPicked }) => !isUsed || isPicked)
+			// 	.forEach(({ item}) => item.render())
 
 			renderContext.save()
 
@@ -120,6 +162,10 @@ function launchRound() {
 			floorStages.forEach((floor) => {
 				floor.render()
 			})
+			gameArtefactsStates
+				.forEach(({ item}) => {
+						item.render()
+				})
 			// Restore the context to original state
 			renderContext.restore()
 
