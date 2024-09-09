@@ -96,10 +96,6 @@ const gameArtefactsStates = [
 	}
 ]
 
-function isBetween(left, right, value) {
-	return left <= value && value <= right && !(value > right)
-}
-
 function launchRound() {
 	let activeFloor = 1
 	let draggingElementId = null
@@ -107,6 +103,32 @@ function launchRound() {
 		items: [],
 	}
 
+	const elevatorsState = {
+		left: {
+			isOpen: false,
+			isMoving: false,
+			isMovingUp: false,
+			isMovingDown: false,
+			currentFloor: 5,
+			dy: 4,
+		},
+		middle: {
+			isOpen: false,
+			isMoving: false,
+			isMovingUp: false,
+			isMovingDown: false,
+			currentFloor: 8,
+			dy: 2,
+		},
+		right: {
+			isOpen: false,
+			isMoving: false,
+			isMovingUp: false,
+			isMovingDown: false,
+			currentFloor: 12,
+			dy: 15,
+		},
+	}
 	const leftStairCaseDoorHandler = () => {
 		if (activeFloor === 1) {
 			return
@@ -139,6 +161,7 @@ function launchRound() {
 				`FLOOR ${floorNumber}`,
 				floorNumber,
 				renderContext,
+				elevatorsState,
 			)(floor1Handlers)
 		}
 	)

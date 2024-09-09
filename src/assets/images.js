@@ -234,7 +234,7 @@ const triangleDown = (context) => (x, y) => {
 	return triangleSprite
 }
 
-const floorIndicator = (context) => (x, y) => {
+const floorIndicator = (context, state) => (x, y) => {
 	const indicatorSprite = Sprite({
 		x,
 		y,
@@ -242,19 +242,37 @@ const floorIndicator = (context) => (x, y) => {
 		height: 15,
 	})
 
+	const textSprite = Text({
+		text: '',
+		font: `11px Arial`,
+		color: 'rgb(255,0,0)',
+		x,
+		y,
+	})
+
 	indicatorSprite.render = function() {
 		context.fillStyle = 'rgba(0, 0, 0)'
 		context.fillRect(this.x, this.y, this.width, this.height)
 
 		context.stroke()
+		textSprite.render()
+	}
+
+	indicatorSprite.update = function() {
+		console.log(state)
+		textSprite.text = state.currentFloor
+		textSprite.x = indicatorSprite.x + indicatorSprite.width / 2 - textSprite.width / 2
+		textSprite.y = indicatorSprite.y + 3
+		textSprite.update()
 	}
 
 	return indicatorSprite
 }
 
-export const elevator = (track, context, handler) => (x, y) => {
+export const elevator = (track, context, handler, state) => (x, y) => {
 	const frame = elevatorFrame(x, y)
 	const elevatorButtonSprite = elevatorButton(context)(frame.x + frame.width + 2, frame.y + frame.height / 2 - 20)
+
 	const group = [
 		frame,
 		elevatorDoorLeft(x, y),
@@ -262,7 +280,7 @@ export const elevator = (track, context, handler) => (x, y) => {
 		elevatorButtonSprite,
 		triangleUp(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7),
 		triangleDown(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+25),
-		floorIndicator(context)(frame.x + frame.width / 2 - 15, frame.y - 6),
+		floorIndicator(context, state)(frame.x + frame.width / 2 - 15, frame.y - 6),
 		// doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
 		// doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
 		// doorBlinkBottom(background.x + imageSizes.door.width - imageSizes.doorBlink.width + 8 , y + imageSizes.door.height - imageSizes.doorBlink2.height / 2 - 12),
