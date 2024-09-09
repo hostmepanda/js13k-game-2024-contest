@@ -63,6 +63,7 @@ const cameraPosition = {
 
 const gameElementsState = {
 	'yellow-gem': {
+		id: 1,
 		isPicked: false,
 		isUsed: false,
 		currentFloor: 2,
@@ -72,6 +73,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	'diamond': {
+		id: 2,
 		isPicked: false,
 		isUsed: false,
 		currentFloor: 4,
@@ -94,6 +96,7 @@ const gameArtefactsStates = [
 
 function launchRound() {
 	let activeFloor = 1
+	let draggingElementId = null
 	const slotBoxState = {
 		items: [],
 	}
@@ -149,14 +152,16 @@ function launchRound() {
 					&& itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + itemSlots.height
 
 				if (distance <= pointer.radius) {
-					if (pointerPressed('left')) {
+					if (pointerPressed('left') && draggingElementId !== item.id) {
 						gameElementsState[item.type].isDragging = true
+						draggingElementId = item.id
 						gameElementsState[item.type].isPicked = false
 					}
 				}
 
 				if (gameElementsState[item.type].isDragging && !pointerPressed('left')) {
 					gameElementsState[item.type].isDragging = false
+					draggingElementId = false
 					gameElementsState[item.type].y = pointer.y - 15
 					if (!isColliding) {
 						gameElementsState[item.type].currentFloor = activeFloor
