@@ -315,7 +315,7 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 			}
 			if (state.isOpening) {
 				leftDoor.x = leftDoor.x > x - leftDoor.width + 3 ? leftDoor.x - 0.5 : leftDoor.x
-				rightDoor.x = leftDoor.x > x + rightDoor.width - 3 ? leftDoor.x + 0.5 : rightDoor.x
+				rightDoor.x = rightDoor.x > x + rightDoor.width - 3 ? rightDoor.x + 0.5 : rightDoor.x
 			}
 		},
 		render() {
