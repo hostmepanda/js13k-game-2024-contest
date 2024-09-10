@@ -1,4 +1,4 @@
-import { Sprite, Text, pointerPressed, pointerOver} from 'kontra'
+import {pointerPressed, Sprite, Text} from 'kontra'
 
 export const images = {
 	doorBlink: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAABRCAYAAACkJjRZAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAn9JREFUaN7VmN2OgjAQRj+7ulr3Yt//QaXg8rM3kDTNFEpnpq2TmCgRcjxOy8dclmUBo34B3IJjDsDL+/wDwIJXf4Zx8pWABIDee28APMCvjgP6JI4NACbvswVwYUK+OUavAL6J407D5naxnLKRXz4K2xy2a+aAfgG4x375WhdJm7mgKTafQjanXFATsek0beaAUn33t74ke7MPdo9ToDFTYW9yN/cltHkWlDI1Ktmcc0FL2nSxxZFSd+K747raJW06yuYZUFvTZirofd3k/ZqUbC4c0BI25z2bKaDfawAJbQ4lbaaApth8CNjsU26JsboRwZiyaZig3ZHNI1Bb4J4+pdjcA6WCcfgXPYRsggNaYqWHbXQalArGc3DRojZjoPZg+5CwOZ6xSYFSwXip2ZsxUGrz1rD55oBS200YFCRsvnJOMoVtho8tp0FjNqv3ZghKBWP/kUDC5jvXpg9qD3rzXtOmvx19HTxgPaVGMxxQW2Cld8zzYYhgPAQ2rYDNSQJ0L8o9iLYobhORlT4J2uwlbFKgkjYXKZsh6KBgc9YA7YRtOgiWUbLpJG36oO5gMlLV5gZKjbVVhwm5oJ2gzVnD5gbavM1w1UvY7KFURtBmp2UzDM4cm5Omzb3gXCV4pATna6nRjGRwbs5mLDirjmYkg3NzNrmgWaOZGqAvFKxc0OzRTGnQDoUrB/Rd2mYuaHGbOaDs0Uwp0Co2z4KKjGZKgFazeQa0r2kzFXSpbTMVVHQ0owWqMkzQAHUt2DwCbcbmEajaMEESdG7J5h5oUzZjoKqjGUnQrjWbFOjUok0KtEOjZQKbwyeANmvTBx1btumDNm1zAy06muGAvvAB9Q9jodHvy+jl0QAAAABJRU5ErkJggg==',
@@ -259,7 +259,6 @@ const floorIndicator = (context, state) => (x, y) => {
 	}
 
 	indicatorSprite.update = function() {
-		console.log(state)
 		textSprite.text = state.currentFloor
 		textSprite.x = indicatorSprite.x + indicatorSprite.width / 2 - textSprite.width / 2
 		textSprite.y = indicatorSprite.y + 3
@@ -269,17 +268,21 @@ const floorIndicator = (context, state) => (x, y) => {
 	return indicatorSprite
 }
 
-export const elevator = (track, context, handler, state) => (x, y) => {
+export const elevator = (track, context, handler, state, pointer, yAxisShift, activeFloor) => (x, y) => {
 	const frame = elevatorFrame(x, y)
 	const elevatorButtonSprite = elevatorButton(context)(frame.x + frame.width + 2, frame.y + frame.height / 2 - 20)
+	const triangleUpSprite= triangleUp(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)
+	const triangleDownSprite= triangleDown(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+25)
+
+	track(triangleUpSprite, triangleDownSprite)
 
 	const group = [
 		frame,
 		elevatorDoorLeft(x, y),
 		elevatorDoorRight(x, y),
 		elevatorButtonSprite,
-		triangleUp(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7),
-		triangleDown(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+25),
+		triangleUpSprite,
+		triangleDownSprite,
 		floorIndicator(context, state)(frame.x + frame.width / 2 - 15, frame.y - 6),
 		// doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
 		// doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
@@ -291,6 +294,22 @@ export const elevator = (track, context, handler, state) => (x, y) => {
 		group,
 		update() {
 			group.map(sprite => sprite.update())
+
+			const distanceTopArrow = Math.sqrt(
+				(triangleUpSprite.x - (pointer.x - 15)) ** 2 + (triangleUpSprite.y - (pointer.y - 15) - yAxisShift) ** 2
+			)
+
+			const distanceBottomArrow = Math.sqrt(
+				(triangleDownSprite.x - (pointer.x - 15)) ** 2 + (triangleDownSprite.y - (pointer.y - 15) - yAxisShift) ** 2
+			)
+
+			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left')) {
+				state.isOpen = activeFloor === state.currentFloor
+				state.isMoving = activeFloor !== state.currentFloor
+				state.isMovingUp = activeFloor > state.currentFloor
+				state.isMovingDown = activeFloor < state.currentFloor
+			}
+
 		},
 		render() {
 			group.map(sprite => sprite.render())

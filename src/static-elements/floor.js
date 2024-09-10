@@ -7,7 +7,7 @@ import {
 	wallText
 } from '../assets/images'
 
-export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber, renderContext, elevatorsState) =>
+export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber, renderContext, elevatorsState, pointer, activeFloor) =>
 	({
 		 handlers: {
 			 leftStairCaseDoorHandler,
@@ -48,15 +48,14 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'DOWN', 'rgb(255,0,0)', 20)
 		}
 
-
 		if (floorNumber < 13) {
 			rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
 			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
 		}
 
-		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
-		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
-		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
+		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, activeFloor)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
+		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, activeFloor)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
+		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, activeFloor)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
 
 		return {
 			update() {
@@ -75,6 +74,7 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 				if (floorNumber > 1) {
 					arrowDown.update()
 				}
+
 			},
 			render() {
 				background.render()

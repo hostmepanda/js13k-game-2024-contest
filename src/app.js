@@ -110,6 +110,7 @@ function launchRound() {
 			isMovingUp: false,
 			isMovingDown: false,
 			currentFloor: 5,
+			targetFloor: 5,
 			dy: 4,
 		},
 		middle: {
@@ -118,6 +119,7 @@ function launchRound() {
 			isMovingUp: false,
 			isMovingDown: false,
 			currentFloor: 8,
+			targetFloor: 8,
 			dy: 2,
 		},
 		right: {
@@ -126,6 +128,7 @@ function launchRound() {
 			isMovingUp: false,
 			isMovingDown: false,
 			currentFloor: 12,
+			targetFloor: 12,
 			dy: 15,
 		},
 	}
@@ -162,6 +165,8 @@ function launchRound() {
 				floorNumber,
 				renderContext,
 				elevatorsState,
+				pointer,
+				activeFloor,
 			)(floor1Handlers)
 		}
 	)
