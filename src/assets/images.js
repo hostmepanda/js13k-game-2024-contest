@@ -206,7 +206,7 @@ const elevatorButton = (context) => (x, y) => {
 	return buttonSprite
 }
 
-const triangleUp = (context) => (x, y) => {
+const triangleUp = (context, state) => (x, y) => {
 	const triangleSprite = Sprite({
 		x,
 		y,
@@ -220,7 +220,7 @@ const triangleUp = (context) => (x, y) => {
 	return triangleSprite
 }
 
-const triangleDown = (context) => (x, y) => {
+const triangleDown = (context, state) => (x, y) => {
 	const triangleSprite = Sprite({
 		x,
 		y,
@@ -268,11 +268,11 @@ const floorIndicator = (context, state) => (x, y) => {
 	return indicatorSprite
 }
 
-export const elevator = (track, context, handler, state, pointer, yAxisShift, activeFloor) => (x, y) => {
+export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext) => (x, y) => {
 	const frame = elevatorFrame(x, y)
 	const elevatorButtonSprite = elevatorButton(context)(frame.x + frame.width + 2, frame.y + frame.height / 2 - 20)
-	const triangleUpSprite= triangleUp(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)
-	const triangleDownSprite= triangleDown(context)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+25)
+	const triangleUpSprite= triangleUp(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)
+	const triangleDownSprite= triangleDown(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+25)
 
 	track(triangleUpSprite, triangleDownSprite)
 
@@ -281,8 +281,8 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ac
 		elevatorDoorLeft(x, y),
 		elevatorDoorRight(x, y),
 		elevatorButtonSprite,
-		triangleUpSprite,
 		triangleDownSprite,
+		triangleUpSprite,
 		floorIndicator(context, state)(frame.x + frame.width / 2 - 15, frame.y - 6),
 		// doorBlinkTop(background.x - imageSizes.door.width + 3 + imageSizes.doorBlink.width , y + 10),
 		// doorBlinkTop(background.x + imageSizes.door.width + 3 , y + 10),
@@ -304,12 +304,11 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ac
 			)
 
 			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left')) {
-				state.isOpen = activeFloor === state.currentFloor
-				state.isMoving = activeFloor !== state.currentFloor
-				state.isMovingUp = activeFloor > state.currentFloor
-				state.isMovingDown = activeFloor < state.currentFloor
+				state.targetFloor = gameContext.activeFloor
+				state.isMoving = state.targetFloor !== state.currentFloor
+				state.isMovingUp = state.targetFloor > state.currentFloor
+				state.isMovingDown = state.targetFloor < state.currentFloor
 			}
-
 		},
 		render() {
 			group.map(sprite => sprite.render())

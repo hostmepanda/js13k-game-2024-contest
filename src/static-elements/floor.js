@@ -7,7 +7,7 @@ import {
 	wallText
 } from '../assets/images'
 
-export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber, renderContext, elevatorsState, pointer, activeFloor) =>
+export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber, renderContext, elevatorsState, pointer, gameContext) =>
 	({
 		 handlers: {
 			 leftStairCaseDoorHandler,
@@ -53,9 +53,9 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
 		}
 
-		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, activeFloor)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
-		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, activeFloor)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
-		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, activeFloor)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
+		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
+		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, gameContext)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
+		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, gameContext)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
 
 		return {
 			update() {

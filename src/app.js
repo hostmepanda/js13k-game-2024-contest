@@ -1,5 +1,5 @@
 import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kontra'
-import {diamondSprite, gemSprite} from './assets/images'
+import {diamondSprite, elevatorFrame, gemSprite} from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
 import {createSlotsBox} from './static-elements/slots-box'
@@ -97,14 +97,36 @@ const gameArtefactsStates = [
 ]
 
 function launchRound() {
-	let activeFloor = 1
+	const gameContext = {
+		activeFloor: 1,
+	}
 	let draggingElementId = null
 	const slotBoxState = {
 		items: [],
 	}
 
+	const floorPointsSwitcher = {
+		floor1: floorCameraPoints.floor1.y + canvasSize.height / 2 - 20,
+		floor2: floorCameraPoints.floor2.y + canvasSize.height / 2 - 20,
+		floor3: floorCameraPoints.floor3.y + canvasSize.height / 2 - 20,
+		floor4: floorCameraPoints.floor4.y + canvasSize.height / 2 - 20,
+		floor5: floorCameraPoints.floor5.y + canvasSize.height / 2 - 20,
+		floor6: floorCameraPoints.floor6.y + canvasSize.height / 2 - 20,
+		floor7: floorCameraPoints.floor7.y + canvasSize.height / 2 - 20,
+		floor8: floorCameraPoints.floor8.y + canvasSize.height / 2 - 20,
+		floor9: floorCameraPoints.floor9.y + canvasSize.height / 2 - 20,
+		floor10: floorCameraPoints.floor10.y + canvasSize.height / 2 - 20,
+		floor11: floorCameraPoints.floor11.y + canvasSize.height / 2 - 20,
+		floor12: floorCameraPoints.floor12.y + canvasSize.height / 2 - 20,
+		floor13: floorCameraPoints.floor13.y + canvasSize.height / 2 - 20,
+	}
+
 	const elevatorsState = {
 		left: {
+			item: elevatorFrame(
+				canvasSize.width / 8 * 2,
+				floorCameraPoints.floor5.y + canvasSize.height / 2 - 20
+			),
 			isOpen: false,
 			isMoving: false,
 			isMovingUp: false,
@@ -114,6 +136,10 @@ function launchRound() {
 			dy: 4,
 		},
 		middle: {
+			item: elevatorFrame(
+				canvasSize.width / 8 * 3.5,
+				floorCameraPoints.floor8.y + canvasSize.height / 2 - 20,
+			),
 			isOpen: false,
 			isMoving: false,
 			isMovingUp: false,
@@ -123,29 +149,33 @@ function launchRound() {
 			dy: 2,
 		},
 		right: {
+			item: elevatorFrame(
+				canvasSize.width / 8 * 5,
+				floorCameraPoints.floor12.y + canvasSize.height / 2 - 20,
+			),
 			isOpen: false,
 			isMoving: false,
 			isMovingUp: false,
 			isMovingDown: false,
 			currentFloor: 12,
 			targetFloor: 12,
-			dy: 15,
+			dy: 1.5,
 		},
 	}
 	const leftStairCaseDoorHandler = () => {
-		if (activeFloor === 1) {
+		if (gameContext.activeFloor === 1) {
 			return
 		}
-		activeFloor = activeFloor - 1
-		cameraPosition.y = floorCameraPoints[`floor${activeFloor}`].y
+		gameContext.activeFloor = gameContext.activeFloor - 1
+		cameraPosition.y = floorCameraPoints[`floor${gameContext.activeFloor}`].y
 	}
 
 	const rightStairCaseDoorHandler = () => {
-		if (activeFloor === 13) {
+		if (gameContext.activeFloor === 13) {
 			return
 		}
-		activeFloor = activeFloor + 1
-		cameraPosition.y = floorCameraPoints[`floor${activeFloor}`].y
+		gameContext.activeFloor = gameContext.activeFloor + 1
+		cameraPosition.y = floorCameraPoints[`floor${gameContext.activeFloor}`].y
 	}
 
 	const floor1Handlers= {
@@ -166,12 +196,12 @@ function launchRound() {
 				renderContext,
 				elevatorsState,
 				pointer,
-				activeFloor,
+				gameContext,
 			)(floor1Handlers)
 		}
 	)
-
 	const itemSlots = createSlotsBox(renderContext)(5, 500)
+
 	const slotCoordinates = {
 		slot1: {
 			x0: itemSlots.x,
@@ -231,17 +261,58 @@ function launchRound() {
 				.filter(({ slotNumber }) => !!slotNumber)
 				.map(({slotNumber}) => slotNumber)
 
-			const freeSlots = SLOTS.filter((slot) => !busySlots.includes(slot))
-
 			floorStages.forEach((floor) => {
 				floor.update()
 			})
+
 			itemSlots.update()
 
+			Object.values(elevatorsState).forEach((state) => {
+				if (state.isMoving) {
+					state.item.y = state.item.y + (state.isMovingUp ? state.dy : -state.dy)
+				}
+
+				if (state.item.y <= floorPointsSwitcher.floor1 + 5) {
+					state.currentFloor = 1
+				} else if (state.item.y <= floorPointsSwitcher.floor2 - 5 && state.item.y >= floorPointsSwitcher.floor1 + 5) {
+					state.currentFloor = 2
+				} else if (state.item.y <= floorPointsSwitcher.floor3 - 5 && state.item.y >= floorPointsSwitcher.floor2 + 5) {
+					state.currentFloor = 3
+				} else if (state.item.y <= floorPointsSwitcher.floor4 - 5 && state.item.y >= floorPointsSwitcher.floor3 + 5) {
+					state.currentFloor = 4
+				} else if (state.item.y <= floorPointsSwitcher.floor5 - 5 && state.item.y >= floorPointsSwitcher.floor4 + 5) {
+					state.currentFloor = 5
+				} else if (state.item.y <= floorPointsSwitcher.floor6 - 5 && state.item.y >= floorPointsSwitcher.floor5 + 5) {
+					state.currentFloor = 6
+				} else if (state.item.y <= floorPointsSwitcher.floor7 - 5 && state.item.y >= floorPointsSwitcher.floor6 + 5) {
+					state.currentFloor = 7
+				} else if (state.item.y <= floorPointsSwitcher.floor8 - 5 && state.item.y >= floorPointsSwitcher.floor7 + 5) {
+					state.currentFloor = 8
+				} else if (state.item.y <= floorPointsSwitcher.floor9 - 5 && state.item.y >= floorPointsSwitcher.floor8 + 5) {
+					state.currentFloor = 9
+				} else if (state.item.y <= floorPointsSwitcher.floor10 - 5 && state.item.y >= floorPointsSwitcher.floor9 + 5) {
+					state.currentFloor = 10
+				} else if (state.item.y <= floorPointsSwitcher.floor11 - 5 && state.item.y >= floorPointsSwitcher.floor10 + 5) {
+					state.currentFloor = 11
+				} else if (state.item.y <= floorPointsSwitcher.floor12 - 5 && state.item.y >= floorPointsSwitcher.floor11 + 5) {
+					state.currentFloor = 12
+				} else if (state.item.y <= floorPointsSwitcher.floor13 - 5 && state.item.y >= floorPointsSwitcher.floor12 + 5) {
+					state.currentFloor = 13
+				}
+
+				if (state.currentFloor === state.targetFloor) {
+					state.isMoving = false
+					state.isMovingUp = false
+					state.isMovingDown = false
+					state.item.y = floorPointsSwitcher[`floor${state.currentFloor}`]
+				}
+
+				state.item.update()
+			})
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
-				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (activeFloor - 1) * canvasSize.height
+				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (gameContext.activeFloor - 1) * canvasSize.height
 				const distance = Math.sqrt(
-					(item.x - (pointer.x - 15)) ** 2 + (item.y - (gameElementsState[item.type].isPicked ? pointer.y - 15 : ((pointer.y - 15)+ (activeFloor - 1) * canvasSize.height))) ** 2)
+					(item.x - (pointer.x - 15)) ** 2 + (item.y - (gameElementsState[item.type].isPicked ? pointer.y - 15 : ((pointer.y - 15)+ (gameContext.activeFloor - 1) * canvasSize.height))) ** 2)
 				const isColliding = itemSlots.x <= item.x && item.x <= itemSlots.x + itemSlots.width
 					&& itemSlots.y <= absolutionItemY && absolutionItemY <= itemSlots.y + itemSlots.height
 
@@ -264,7 +335,7 @@ function launchRound() {
 					gameElementsState[item.type].isPicked = true
 
 					if (!isColliding) {
-						gameElementsState[item.type].currentFloor = activeFloor
+						gameElementsState[item.type].currentFloor = gameContext.activeFloor
 						gameElementsState[item.type].slotNumber = null
 						gameElementsState[item.type].isPicked = false
 						slotBoxState.items = slotBoxState.items.filter((type) => type !== item.type)
@@ -273,7 +344,7 @@ function launchRound() {
 
 				if (gameElementsState[item.type].isDragging) {
 					gameElementsState[item.type].x = pointer.x - 15
-					gameElementsState[item.type].y = pointer.y - 15 + (activeFloor - 1) * canvasSize.height
+					gameElementsState[item.type].y = pointer.y - 15 + (gameContext.activeFloor - 1) * canvasSize.height
 				}
 
 				item.update()
@@ -312,7 +383,10 @@ function launchRound() {
 					gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
 				})
 
-							// Restore the context to original state
+			Object.values(elevatorsState).map(({ item }) => {
+				item.render()
+			})
+
 			renderContext.restore()
 
 		}
