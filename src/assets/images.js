@@ -274,12 +274,15 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 	const triangleUpSprite= triangleUp(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)
 	const triangleDownSprite= triangleDown(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+25)
 
+	const leftDoor = elevatorDoorLeft(x, y)
+	const rightDoor = elevatorDoorRight(x, y)
+
 	track(triangleUpSprite, triangleDownSprite)
 
 	const group = [
 		frame,
-		elevatorDoorLeft(x, y),
-		elevatorDoorRight(x, y),
+		leftDoor,
+		rightDoor,
 		elevatorButtonSprite,
 		triangleDownSprite,
 		triangleUpSprite,
@@ -308,6 +311,11 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 				state.isMoving = state.targetFloor !== state.currentFloor
 				state.isMovingUp = state.targetFloor > state.currentFloor
 				state.isMovingDown = state.targetFloor < state.currentFloor
+				state.shouldOpen = true
+			}
+			if (state.isOpening) {
+				leftDoor.x = leftDoor.x > x - leftDoor.width + 3 ? leftDoor.x - 0.5 : leftDoor.x
+				rightDoor.x = leftDoor.x > x + rightDoor.width - 3 ? leftDoor.x + 0.5 : rightDoor.x
 			}
 		},
 		render() {

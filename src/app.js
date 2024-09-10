@@ -128,12 +128,15 @@ function launchRound() {
 				floorCameraPoints.floor5.y + canvasSize.height / 2 - 20
 			),
 			isOpen: false,
+			isOpening: false,
+			isClosing: false,
 			isMoving: false,
 			isMovingUp: false,
 			isMovingDown: false,
+			shouldOpen: false,
 			currentFloor: 5,
 			targetFloor: 5,
-			dy: 4,
+			dy: 8,
 		},
 		middle: {
 			item: elevatorFrame(
@@ -141,12 +144,15 @@ function launchRound() {
 				floorCameraPoints.floor8.y + canvasSize.height / 2 - 20,
 			),
 			isOpen: false,
+			isOpening: false,
+			isClosing: false,
 			isMoving: false,
 			isMovingUp: false,
 			isMovingDown: false,
+			shouldOpen: false,
 			currentFloor: 8,
 			targetFloor: 8,
-			dy: 2,
+			dy: 10,
 		},
 		right: {
 			item: elevatorFrame(
@@ -154,12 +160,15 @@ function launchRound() {
 				floorCameraPoints.floor12.y + canvasSize.height / 2 - 20,
 			),
 			isOpen: false,
+			isOpening: false,
+			isClosing: false,
 			isMoving: false,
 			isMovingUp: false,
 			isMovingDown: false,
+			shouldOpen: false,
 			currentFloor: 12,
 			targetFloor: 12,
-			dy: 1.5,
+			dy: 15,
 		},
 	}
 	const leftStairCaseDoorHandler = () => {
@@ -305,6 +314,7 @@ function launchRound() {
 					state.isMovingUp = false
 					state.isMovingDown = false
 					state.item.y = floorPointsSwitcher[`floor${state.currentFloor}`]
+					state.isOpening = state.shouldOpen
 				}
 
 				state.item.update()
@@ -384,7 +394,7 @@ function launchRound() {
 				})
 
 			Object.values(elevatorsState).map(({ item }) => {
-				item.render()
+				// item.render()
 			})
 
 			renderContext.restore()
