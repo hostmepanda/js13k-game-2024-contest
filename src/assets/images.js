@@ -268,7 +268,7 @@ const floorIndicator = (context, state) => (x, y) => {
 	return indicatorSprite
 }
 
-export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext) => (x, y) => {
+export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext, floorNumber) => (x, y) => {
 	const frame = elevatorFrame(x, y)
 	const elevatorButtonSprite = elevatorButton(context)(frame.x + frame.width + 2, frame.y + frame.height / 2 - 20)
 	const triangleUpSprite= triangleUp(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)
@@ -277,7 +277,13 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 	const leftDoor = elevatorDoorLeft(x, y)
 	const rightDoor = elevatorDoorRight(x, y)
 
-	track(triangleUpSprite, triangleDownSprite)
+	track(triangleUpSprite, triangleDownSprite, frame)
+
+	frame.onDown = () => {
+		if (state.isOpen && !state.isClosing && gameContext.activeFloor === state.currentFloor) {
+			state.isClosing = true
+		}
+	}
 
 	const group = [
 		frame,
@@ -297,7 +303,6 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 		group,
 		update() {
 			group.map(sprite => sprite.update())
-
 			const distanceTopArrow = Math.sqrt(
 				(triangleUpSprite.x - (pointer.x - 15)) ** 2 + (triangleUpSprite.y - (pointer.y - 15) - yAxisShift) ** 2
 			)
@@ -306,17 +311,45 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 				(triangleDownSprite.x - (pointer.x - 15)) ** 2 + (triangleDownSprite.y - (pointer.y - 15) - yAxisShift) ** 2
 			)
 
-			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left')) {
+			const isOverFrame = pointer.x < frame.x + frame.width && pointer.x > frame.x && pointer.y < frame.y - yAxisShift + frame.height && pointer.y > frame.y
+
+			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left') && !state.isOpen && !state.isClosing && !state.isMoving) {
 				state.targetFloor = gameContext.activeFloor
 				state.isMoving = state.targetFloor !== state.currentFloor
 				state.isMovingUp = state.targetFloor > state.currentFloor
 				state.isMovingDown = state.targetFloor < state.currentFloor
 				state.shouldOpen = true
 			}
-			if (state.isOpening) {
-				leftDoor.x = leftDoor.x > x - leftDoor.width + 3 ? leftDoor.x - 0.5 : leftDoor.x
-				rightDoor.x = rightDoor.x > x + frame.width - 3 ? rightDoor.x + 0.5 : rightDoor.x
+
+			if (state.isOpening && state.currentFloor === floorNumber) {
+				if (leftDoor.x > x - leftDoor.width + 13) {
+					leftDoor.x = leftDoor.x - 0.5
+				}
+				if (rightDoor.x < x + frame.width - 13) {
+					rightDoor.x = rightDoor.x + 0.5
+				}
+				if (!(leftDoor.x > x - leftDoor.width + 13) && !(rightDoor.x < x + frame.width - 13)) {
+					state.isOpening = false
+					state.isOpen = true
+					state.shouldOpen = false
+				}
 			}
+
+			if (state.isClosing && state.currentFloor === floorNumber) {
+				if (leftDoor.x < frame.x + 2) {
+					leftDoor.x = leftDoor.x + 0.6
+				}
+				if (rightDoor.x > frame.x + frame.width / 2 + 1) {
+					rightDoor.x = rightDoor.x - 0.6
+				}
+
+				if (leftDoor.x > frame.x + 2 && rightDoor.x <= frame.x + frame.width / 2 + 1) {
+					state.isClosing = false
+					state.isOpen = false
+				}
+			}
+
+
 		},
 		render() {
 			group.map(sprite => sprite.render())

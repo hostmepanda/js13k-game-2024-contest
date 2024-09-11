@@ -382,6 +382,7 @@ function launchRound() {
 			renderContext.save()
 
 			renderContext.translate(0, -cameraPosition.y)
+
 			floorStages.forEach((floor) => {
 				floor.render()
 			})
