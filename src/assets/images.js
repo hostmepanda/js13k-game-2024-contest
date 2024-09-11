@@ -284,12 +284,6 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 			state.isShowingFloorSelector = true
 		}
 	}
-	//
-	// floorDashboardInElevator.onDown = () => {
-	// 	if (state.isOpen && !state.isClosing && gameContext.activeFloor === state.currentFloor) {
-	// 		state.isClosing = true
-	// 	}
-	// }
 
 	const group = [
 		frame,
@@ -353,17 +347,17 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 				if (leftDoor.x > frame.x + 2 && rightDoor.x <= frame.x + frame.width / 2 + 1) {
 					state.isClosing = false
 					state.isOpen = false
+					state.isMoving = state.targetFloor !== state.currentFloor
+					state.isMovingUp = state.targetFloor > state.currentFloor
+					state.isMovingDown = state.targetFloor < state.currentFloor
+					state.shouldOpen = true
+					state.isShowingFloorSelector = false
 				}
 			}
 
-			// floorDashboardInElevator.update()
 		},
 		render() {
 			group.map(sprite => sprite.render())
-
-			// if (state.isShowingFloorSelector) {
-			// 	floorDashboardInElevator.render()
-			// }
 		},
 	}
 }
@@ -451,7 +445,7 @@ export const diamondSprite = (itemState) => (track) => () => {
 	return sprite
 }
 
-export const elevatorFloorSelector = (context, state, gameContext, canvasSize) => (track) => () => {
+export const elevatorFloorSelector = (context, state, gameContext, canvasSize) => () => {
 	const shadowDrop = Sprite({
 		x: 0,
 		y: 0,
@@ -493,6 +487,11 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize) =
 				},
 				onUp() {
 					this.y -= 3;
+
+					const activeState = Object.values(state).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+					activeState.isShowingFloorSelector = false
+					activeState.targetFloor = floorNumber
+					activeState.isClosing = true
 				}
 			});
 
@@ -521,7 +520,9 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize) =
 		},
 		onUp() {
 			this.y -= 3;
-			console.log(state)
+
+			const activeState = Object.values(state).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+			activeState.isShowingFloorSelector = false
 		}
 	}))
 

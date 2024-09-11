@@ -265,7 +265,7 @@ function launchRound() {
 		},
 	}
 
-	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize)(track)()
+	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize)()
 
 	let loop = GameLoop({
 		update() {
@@ -403,13 +403,14 @@ function launchRound() {
 				// item.render()
 			})
 
+			renderContext.restore()
+
+
 			const dashboardSelectorState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+
 			if (dashboardSelectorState) {
 				floorDashboardInElevator.render()
 			}
-
-			renderContext.restore()
-
 		}
 	});
 
