@@ -53,9 +53,9 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
 		}
 
-		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext, floorNumber)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
-		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, gameContext, floorNumber)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
-		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, gameContext, floorNumber)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
+		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext, floorNumber, canvasSize)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
+		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, gameContext, floorNumber, canvasSize)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
+		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, gameContext, floorNumber, canvasSize)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
 
 		return {
 			update() {

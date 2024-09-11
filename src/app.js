@@ -1,5 +1,5 @@
 import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kontra'
-import {diamondSprite, elevatorFrame, gemSprite} from './assets/images'
+import {diamondSprite, elevatorFloorSelector, elevatorFrame, gemSprite} from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
 import {createSlotsBox} from './static-elements/slots-box'
@@ -128,14 +128,15 @@ function launchRound() {
 				floorCameraPoints.floor5.y + canvasSize.height / 2 - 20
 			),
 			isOpen: false,
-			isOpening: false,
+			isOpening: true,
 			isClosing: false,
 			isMoving: false,
 			isMovingUp: false,
 			isMovingDown: false,
-			shouldOpen: false,
-			currentFloor: 5,
-			targetFloor: 5,
+			shouldOpen: true,
+			isShowingFloorSelector: false,
+			currentFloor: 1,
+			targetFloor: 1,
 			dy: 8,
 		},
 		middle: {
@@ -150,6 +151,7 @@ function launchRound() {
 			isMovingUp: false,
 			isMovingDown: false,
 			shouldOpen: false,
+			isShowingFloorSelector: false,
 			currentFloor: 8,
 			targetFloor: 8,
 			dy: 10,
@@ -166,6 +168,7 @@ function launchRound() {
 			isMovingUp: false,
 			isMovingDown: false,
 			shouldOpen: false,
+			isShowingFloorSelector: false,
 			currentFloor: 12,
 			targetFloor: 12,
 			dy: 15,
@@ -262,6 +265,7 @@ function launchRound() {
 		},
 	}
 
+	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize)(track)()
 
 	let loop = GameLoop({
 		update() {
@@ -369,6 +373,7 @@ function launchRound() {
 				itemConfig.y = slotCoordinates[`slot${itemConfig.slotNumber}`].y0 + 9
 			})
 
+			floorDashboardInElevator.update()
 		},
 		render() {
 			itemSlots.render()
@@ -397,6 +402,11 @@ function launchRound() {
 			Object.values(elevatorsState).map(({ item }) => {
 				// item.render()
 			})
+
+			const dashboardSelectorState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+			if (dashboardSelectorState) {
+				floorDashboardInElevator.render()
+			}
 
 			renderContext.restore()
 
