@@ -1,5 +1,12 @@
 import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kontra'
-import {diamondSprite, elevatorFloorSelector, elevatorFrame, gemSprite} from './assets/images'
+import {
+	diamondSprite,
+	elevatorFloorSelector,
+	elevatorFrame, emeraldSprite,
+	gemSprite, greenDiamondSprite, orangeDiamondSprite, redDiamondSprite,
+	redGemSprite, yellowDiamondGemSprite,
+	yellowDiamondSprite
+} from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
 import {createSlotsBox} from './static-elements/slots-box'
@@ -13,8 +20,6 @@ const canvasSize =  {
 	width: 800,
 	height: 600,
 }
-
-const SLOTS = [1, 2, 3, 4, 5, 6, 7, 8]
 
 const floorCameraPoints = {
 	floor1: {
@@ -91,6 +96,78 @@ const gameElementsState = {
 		x: 200,
 		y: 450,
 	},
+	'red-gem': {
+		id: 3,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 260,
+		y: 450,
+	},
+	'yellow-diamond': {
+		id: 4,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 160,
+		y: 450,
+	},
+	'orange-diamond': {
+		id: 5,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 30,
+		y: 450,
+	},
+	'emerald': {
+		id: 6,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 80,
+		y: 450,
+	},
+	'red-diamond': {
+		id: 6,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 130,
+		y: 550,
+	},
+	'green-diamond': {
+		id: 6,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 180,
+		y: 550,
+	},
 }
 
 const gameArtefactsStates = [
@@ -100,6 +177,24 @@ const gameArtefactsStates = [
 	}, {
 		item: diamondSprite(gameElementsState['diamond'])(track)(),
 		type: 'diamond',
+	}, {
+		item: redGemSprite(gameElementsState['red-gem'], renderContext)(track)(),
+		type: 'red-gem',
+	}, {
+		item: yellowDiamondSprite(gameElementsState['yellow-diamond'], renderContext)(track)(),
+		type: 'yellow-diamond',
+	}, {
+		item: orangeDiamondSprite(gameElementsState['orange-diamond'], renderContext)(track)(),
+		type: 'orange-diamond',
+	}, {
+		item: emeraldSprite(gameElementsState['emerald'], renderContext)(track)(),
+		type: 'emerald',
+	}, {
+		item: redDiamondSprite(gameElementsState['red-diamond'], renderContext)(track)(),
+		type: 'red-diamond',
+	}, {
+		item: greenDiamondSprite(gameElementsState['green-diamond'], renderContext)(track)(),
+		type: 'green-diamond',
 	}
 ]
 
@@ -190,6 +285,7 @@ function launchRound() {
 			shouldWaitForCameraUpdate: false,
 		},
 	}
+
 	const leftStairCaseDoorHandler = () => {
 		if (gameContext.activeFloor === 1) {
 			return
@@ -443,7 +539,7 @@ function launchRound() {
 				cameraPosition.y = cameraPosition.targetY > cameraPosition.y ? cameraPosition.y + cameraPosition.dy : cameraPosition.y - cameraPosition.dy
 			} else {
 				cameraPosition.isMoving = false
-				cameraPosition.dy = 2
+				cameraPosition.dy = 8
 				cameraPosition.y = cameraPosition.targetY
 			}
 		},

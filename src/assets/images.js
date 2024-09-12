@@ -10,6 +10,13 @@ export const images = {
 	diamond: 'data:image/png;base64,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',
 	arrowUp: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAACXBIWXMAAAbJAAAGyQGh53xXAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAJ1JREFUGNONkD0KwmAQRN9ugiTgFWwliKUSolVO4hmsbGy8STyDF7DLj2iZe4hgZb610RDBoNsNvJlhVsyMX6ddIaBxUa2mdT3oheZluQbLhtfb9sP8rpvleeSJXoAQeDhzy1OSVG1Sejz6nmj2AgB8T3S/yPOwhe5BsAHiboVB1KjuACQuiokZZyD4MsyZ09Q3J2PUDv37m5H886cnsN8yl97LyDoAAAAASUVORK5CYII=',
 	arrowDown: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAACXBIWXMAAAbJAAAGyQGh53xXAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAJpJREFUGNONkLEOAVEQRc9MNiH8y5b73jb+Qq8XpcYH8AEapU4j8QNaYlel16uUgsi+UZCNTVaY+uTce0fMjF8XuW2eoqHzDVDIItPQFmQCSB1kQldz79cgs1qNsNg5t1SAW6s5BI5VBSdEBu9IOMTxJWA9oPjQ9LMkOZcQwN77jQnTVwrzLE1W5brK1BBGherjfm2MK9X++dMTkT8s5B1wNg4AAAAASUVORK5CYII=',
+	diamondBlue: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAApFJREFUSMfd1ktPE1EUB/D/mbkzQzu0FKEorYVaFyRGTQiLroTEmLAhfgYXfgU3EFeGhX4HHx+AuJCIOxJRFyQ+ovuS2gaBttLS9zzuHBcEaBUW2qELz/LeO/nNufec5BAzI/rkS8xjZZlBC9VUPCOFmoYPoVfqm2Zh/yqBVxXpLhUXZ3Zo9PHnmGR1E8BlAGhFIxvt4fCsH2Aov/dWtKw5AAAhr7pOWvFYWT7CAECvNib8wFQC1LY1ebzASLiq9khh0ELXQctJgjnfK3hnmErESHauEXBXqSZjmVY0siENLXu0ISzney/YjbCK+wnhXInoh8kRsm5A32iMXdgivCzzSdq8LSxnK0BcNocDib+FhjRS58e00NyICOm23Wg4rK0UpLFW4pGmPGRE1xdEcXdAj5tB8elmVEz/S3Y5CexJxriuY33fHl0rMY4wAFDgczQl8KYkkWl67ec5uws7FxAALA9Y2XbKjvfn3rmAAJBtsX3a+rmBZ8WZoEJ9Bq8PKv0DJwOkz0ZUTJn+o119aCjA7aiGe0njokrA/IiKcZ3wseqh/lt5+5Kh5QHrRQdfD2QTAH5Y7Ct26pVaHvAi7/zMtxmvS66v2Jlv6DHwriLRkn2s0qLN/W2Lvjf+fwN29mGVXDcjLPeg0UbtG4I9/Uyj3NoWTE3X0FIgih+DgVL5g1a3YqptJwFMA0Bt4tL7WtOb7ikTpnoot3sLAKShZe2wmXPMoCEG9mtTAEY7D7uGNtnr1bmGluoczALFSjJYrBQUAq92HpSGlgVRoufHIopL/WQwAwCP8EpRpLsEwvFYaIfNnF8FYg8Ndk5/OY3EQ6W4OLOjuk6aQc8AFJ2QafgFOmZggIACA0+FItKFB9d2fwH86Ay+KR5cZAAAAABJRU5ErkJggg==',
+	diamondYellow: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAbCAYAAACEP1QvAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAA5FJREFUSMe9ll1om2UUx3/nffMmTdquaZq0ndV2H22a1m1u0066+jFkY4I6pkMUFfxA9EZERBhlEy0ULFi0IHjtlVQqXowhXiioaJ2wXSh1ypxNh2XFLGs31jYfTZ7jhTQm6dalWdsH3pv/eZ/ze895znueg6pS3oPMnmrqVUXK9WFR5oqNhJ+zbTlItP7Zcn2UBZ862eRDpR8AlQH+aaxcN7hrvrpX0GYAhCbm5ei6wKeHW+8A3ixU9S0mNm5ac3jWsgdBfUWyF9WBNYXHhjv2Ak/ewPwU0dseWBt4n1himSFAbvySDoFYqw6/1NH+AtB1fS81i/BdjDc+v6rw+IlINWh/oSrqNDyTRjyKd1++/B7n6zasGlyTegzYWFBhm3eN2pXNB6g9fh5vDzhti6YGXE5vKX5FVZcvsi/at0iG34CK3CbLSQT3H7uGu6UeV+08qV/ckHKR+AkS34GZSaNmG1tif95S5JJhMB8MUL39wM+Y6XoWomASPtztMdK/Q+JrMDMAbix74JbSHh/u2Ac8XrChonrKE2r9r/CyVyB5FjQbYvbLi5jZvLPSJxhv3F8evE8stcxgsezffTgK/N/LzVVI/eXgOzKxNG0Mgtgrhsc7wy8Dd+drTqB5zPbVdi9te3Gwg904rb8WWe4i2vDSiuDxE5FqVfoKoxDj3/mILNNkBN8RN4gp0vsZD9SUDDdJfQdozNcqW/aMYjl3Ll9C7gie+0aLxHrEc7wkeOyztq0CrxWEZDlz3q1dbSW1Le+D7VBxrahTvM54KHxTuIj9IeDJ12q6XhwTsRpKgquEqDp0pjgliP3+svDLI5GHQB8rGBx8/r+d0J7dWL4VXFft3VjBC0XqISYaDl4fPiK2UR0qriH/3qOz2AEHTweIpzS44MH39NTSYpIP+FZcucByZ23Cr4qwPbff2aCeyOFzxt3iZyE5BQ5Y4YXs3KlYNhGdA3PTbzDz3u8rqxL35/4QoZPmxleAj3O9/eqnO2rTrtQ5IAhgHPMHgWQakR1ufw8VoUfJJieZv/gJmp1d0bQiFmf9dRnjrtBti5MYbleYpsnLLoC0K/0uEBTRaRNIjeGYHsAGJX3lB2zvJlLxr1YMBlBD58wll9pu/TEQzLZZttaTyrwNvCHxz8MRNXLGVKVOa1VmJ8qSu9iuuJ1scpJVWHMer56uqcvcI0buldjJzR+ZyoWHsWhlvZZwwVdlvvkXrSl2CUZU2WEAAAAASUVORK5CYII=',
+	orangeDiamond: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAABI9JREFUSMeVlV1oXEUYhp9vzs8mm2STtGnW1JA2VGsoVqzxh4KRKnqhiIjohTeWoLYIKiKCEvyhVaw31QtFLBXBKgihF9YbUURU6I20SqViGzVNmvQ3TdIk627OnjPzebG7ySb9Swbec2YO873vzDvffEdUlUqb3Rn2qtHPCEFChRBc6Kve7I0EYaGDWdBpAwWFImgsUOAkjnYSDDGoFSSGOK57tuGNi59WuE2lU3hV2hXdjQIJaCKQwMWazr+CsNABgA/48wsDwJMOLXJYI0EjgQjUgRDtHui7pWuh0A4xiXqfu5hmACwQg0sCokxrgyRVxEZByn0FVDGoTwQUAQeagBbjTDrO7ftpx73+nNDEOfOijbnPxYqrkCZQaH9obFX9kXZbkBIpgAi4EmFJCNSTW0lkEMDFYCNFI0hHw3esmCjsBDBneqXLxrzrYsXF4IqKsyXOfFNbLvRnxAgQlwUAXHlLbg4igZ6xs4qNFBeBnS3xNc38+/LB5x97wNds865pr/WMacr66ZY2zw99qMmYGdto/KnvnM3LCaS0clFilxgrM5oiESEu7ZwiJDZocc4eVetCKe0SUUetm6DOXOjzW56YOopcfBQdKFlRtqTBovlvaiURWpHKsZQVK0+dR56G85kVk6swCFKeKgYnHiQrD5lwxu0ADiPlE/PKMIg2p08ZXzCBYMKF8BZ9S8L6IZwKtpxMZQwX7xkK88F2wxZNRPTpcs5QLWg7amskACmLSzV8MD6YoAQJqF8sMp6sT6Z0Td+Gt/pzBiDYpEcQfXvh/YB05/iNecnmROYz+nKtKJnJBhlbP2e9hdjWMZxsPrD5tb1fLbiw4RTvIfxaTeCHBf+/dHZ0gaXz1pYgYMU77lPwq2OP8fBoTdZ76pLKwBZNcLoVKFQHxCtTHkGlKpQRlKDlfo1cNFQVjFN0xxGZF7q37clfKgSE3XpMVd+s/tbUebJj0nREC0TKbwkBjzyRbnQJqIWCa+S8bOzvef3jr6t5zGK/U928r/BLZZxpOJ0a9zecE1+RQBF/IaypGbSJ1qotVZXj8shwauT33sW85tKjVYfTXiA3d9h1aVexaw7lHeajOtSCS+Ck9EQkua3dew7FSxCC1O06qKJ9lfGqNQPZSTojAiAEDUADn8irT3TcrtUEcpplgvZ9m3f2/3w5TnOllE1t4iPge4Dsyj9qz7LhDP78fbL4nP1zdT6Ynai3iTAY3P/33e98sf1KfObKt0PViW4DpkUUv87OztnmCX5qlprr7ZA6GPF7ohY38iTVf9GlC0HNJh0W9BWAxtYTqyNpTERAPIca44LRsfactDErmQ+6dv14+GpcVxUCCG7TvcC317Ucy1worhtFFDxwKv94uekVE+aG3+7afaDvWjzXFAJIRJ8BnQxSca5SGeyYnZgIu3Jphh6/mmXLEkpv0tPi9KXa5vGs83zFRycHGjrVad9NHw6dWAqHLGEx88XzoNk/c7btzjpvLD61v3lg3ZfnHlxqrGEZLXT6nJcqDkUX9KRXPN+7nFh/OZPp0bHgh/pPkskkXtuvZ5cT+j99fxrBhFB+nwAAAABJRU5ErkJggg==',
+	emerald: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAZCAYAAADNAiUZAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAABUhJREFUSMeVVluIVVUY/tZtn7332XNuc3S6SISO1IMPYhBBL0GgYz1LENW7BY5kQUXgo6moow8K0UO9GAQRBKEWgUEPlUREPQTjTIKgjc44c5xz9n2t1cO/zjnjzBmjDZu191rr/7/1375/MWstRj2Hv98+kSfZdbBetH5trQhjG2UtwtiX3uSZfTduj9ItscljC3FSp9ui1rZrUIpQigIoC0AbAmYMEByQClCK5JIEuH2rG6royeMA3hilm42ydPrbyWd69/1rik0wWf0TteYdlBrIMwdcDkGlJECvAlQqwNwsUGqgohq2XW8+d3rf/C/r9fMNpwBjtmTnhR1nAFD2dqHTYYhjIE3JkjgevklC81kG3F0AkhTIc6Abd1ie6wtsRAA2gE5f2vF63Bt7lvOh5wPxNJaXgDRbA9xbA5gDRU4eyDMCLXKLO8uLew5dmXztoaBvXd0V5SU/pVhjMOf7QNV/FIx76KyQ0tRZmyb0XxaAMYC2gBDDMMRpjCTunT10aWdtU1CVZR/mabO91iNRBBgNPD6+B90uUBqnMKZRGwCWLNUFEIRAUQ6TbWllsckZ3h8J+vY3T21PYnlE8WGFVCNKFmMAjhATW+uQnJLHD2jknJLIOBDBgXqd5hkDwAp0uvfenf5ux84NoKXQ52zZHgSScyAMAGNJoTHAY43d8EOGKALCkFwfhLQXDOACEApoNCiTpaS5rFgRJtczD4BOX97xYtINXxbcG1g5NgZYANY4YAtoIzBWeQL1JoEGIR2M9QEFoCSgPKDVIlApACkNVrN7L01fmZwCAMFe+EGuxquXrX6kxVwsPc/F0jpQMwTntgUV3ASYGQCAAZyRxcJZG/hDxiLyyAFTff7r1Yvnxe5X+KE4rr8qeQDGNMBS+NUe4uQ+enEPad6DtilgC4AJWCOgiwiVaAG6HFrIOcVTiCFhhBFlsnRBK/KsWS3VkixKfSgpZmE9Dc4MrAVyCyQl1SUHIKxzkwCYYkgTjmyRQ3IDXQBCkmLhEktIcrNUQIcDSa8ftAw6Lw9L4YkTyisv5EUCgFxZawA1HwhLQLv0hwE0AFNSrMOASoNJygxjaE1wWgeAvCAC4byfQCGkUh/x1k/zH1fDLX8ADFpT7f2zQAVfFg5UU31aQzGylvb1Y2YNrWtN+/uyCwuuljUR7FjQ/uvW6twn/OhRa5SQbwpWs6WzLO4CnQ7RWqlJqJ9I/YNlGVBkRBz9hNOa9pclyfdW3SFKQPIalPQOfnHAag4AM1NzP46Fza+sESRYAkt3h6e0rvBhCajPwf2xb30fuCiApUXSQ/ICtbD15Zmp2asPkIMnxeEobObGCaYZsLw8ZBrGKFZpToSeuW6SF4DVQ2BjgOV7dBit6T8KmgVn9p0NjHRq7/WbjWr9uJQeCVsSLktKBM7dqS29eT78Xr9nZcW53AJSeKjXGsfOTP19YyThs252rN1sL3DOIBjVXLdL6e95AINjHEWMpBT9M07rSgKr913ZMIBzhnarvahYeGLTLnP6wM2kWvGPVKvh4AqSpY7wBeApUu4HQFCl0fNonrtSyTKSkwqIqiHCwJ8+uff33kOb+Mz++Ytbxts/e4qTJcq1M9ekjaaEYi6xjEu8ogDyEgMZpRi2NMd/Pbtv/vP/vDlYWCu5Olir1a1SQBAQeSvP3YN86i5+QGPFp3nlAeMtagJKAfWxhlVKHrTYeAnjo25r5/bP/tZsjn9aqUi0JzBoAg8ABuuAXYOamAC8ikQjan42MzV37X9dQT1r32vUth4o0yRaTTe4Y/DoEffeZi2IhdQfbKb7X3o/qg1kEcgUAAAAAElFTkSuQmCC',
+	redDiamond: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAeCAYAAAAy2w7YAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAABLdJREFUSMetlu1vU3UUx7+/373t7bq2a9kDOEA6HofDDIkCb9SoUWMcGxrQhKgY/Qc0mhjfOCYv8R/wlfGVCQ+LgwFRkEDcUxjdGJSto2PtOsbK1oeNru16n44vNrtderdO4klucu+55/w+5/dwzu8wIoKpNF6oUZncS7pSzsBQTATBmmSi5QDONgTN/jNT0EdnHCRbusMTHXuGQ3dARTiMCNvc27C97t0Ak9SDOH109mkbXugFBtX6y6Owb09idBiSicnTIkHAk+QEHo311UKx/IqWFl4c1NR2YmY6dCQ6PgAAsJFQHLRoEx0fQHI61ITb9T+svnQfXmjKzsVaA/0XuK4reXWYp5FjuinESgw1umMpci5g195DZHdWfozWxjOFoCPttWoufTPQf96Zyz7JO84wBX4+C1ppf8BQpzvhIesS3ObA7r1NaVGSDqL1A//S0jVc9JCqtI8OXjNA5pmGAEuBVsQAOggBnkIWWl4nz8/hwdBfpaRTOxrbKwBAOMEYx/T6cw9He/Ynp0fzxhoId/ns4pKtfMAZAB3ADFewnmzgi5Zybg6aprrLyjfuw8/R34QT7q9PxaeCn02Eeg0DDPMUZplqGHA1UUDIMB2VJOV16dQUrJJjq73SYeeqOv/N4P3rBqcIyyDGZIOOADBmnMrT8DjLIcIyBl1opAOaIn8r6roGH4vBxgVUkw0lEBHhWdOoDblNMN25CM/CpYuwQUSGVKggaKRCXL7xoywNAWzVzV+WGDArGQTCFMvBDTJMuSBhtbVAANAqdclsBBHPIOwZfPizgCiPozX7rHlGJaWlKK/ZglLvBqiahph/BLPjE/8PyGa3o3LjJnhqNqFszw6Uvbgdw+cug4sWvPrjV0gEwwhd+RvRvrsgjf47yOXxoLpmK1w1G+Hctwsl1VWLB0DHRFcfdBB2Hn4H63Z4sW6HF+mpGMJXuxC53g1NUYuD7E4nvLW1cGzdDPf+OljXuQzGscEgMomZheQcCqKibicAoLSqAnXHGrG94U2MXetG+uotYE4pBDHOse2FOnhfrof0ym4wu9U0qoedvvz7eKcvD8rfSy4Hdh5+G/Te68h23UPicjeyU7EFEOcC3vryOGwHagFh5UOoZOYR9d3Lf0d9fiiZeVjstsLjL1lhf+Ml2F+rh9w9CMEvgosW6afyuLQqBAAmewegyUv1T5NlTPbeKdKxcLhnSiAI1lMc9be/e+6x+5LQFVrV52HnrTXpDJzOEKqjZVdglb/naG7WoYifeAedIxiaNHVIP44h8WCsQJ8IhpCenDZP6vtRbAk4xqCJx3D6qLawXu3vJ5kgHtrcw1I0XdApYaLTB+jmeTLe01cIiafwfCdlONCA8w0xYwk62xCQdOnTDX/O6sgphrsh23UXHlhMn1zHAGhZEKSoqPojQZIuff5vv1BY61oPtTmz9pOuS5H85SPfC4PHUnCRxfTh8TSUobF8UK6LEZRlnC3LOyDzovr74ZaquPuMeGPhcCQ7BorWsZmO2wu5ciOE9TFXG/b2nyxevQkEi/yFN+jxwxdG3OcvCor1+kH9Y9gSdAZgUY6juVlfW++92OQTV2/qmlyxpvtGsCYZCfvR1jhi9v8fIVUTSSlsyE8AAAAASUVORK5CYII=',
+	greenDiamond: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAA51JREFUSMells9rXFUUxz/n3Pt+TGObaMbULGwVESnShW5cVlDBhUyUxCRV0O5GEnCjK/0LRN2INolk1ZQgjUamVBDUv0DrQixFg7QqVlNiSTQlmcl797h4k0nSDBnTPnib+w6f8z3fd+65V8yMTo9MDrxMqmqnPp/pGNsJKO9XytytFygZXGHA3qot7hWvHeWpTBOHB/B2lMimOobvqe69yjCJnQAOg9xHyhPy7sCLtwWUjytlPKdJ838RQIB73QLYaZkeOLx/hUEnSUMvzg5BAOfhnqgLKJPp1L6AcmZwBB8GcVZH5RAI5Dk4jhPJMmYDcvaF4f8FlAuVMpp/iDPw/AMIYhByuNmI6HcLAJh8JOd3l75b4UY0oYSyiIFI1Fo3g3oGaTiCDyChTKZn9wTKN8MjYENBwMwygh1sY24ZT71IwtPy5fPVtkC5+FIZ7APyfPPTNTJx5LK9JyFRR4//bdviO/Ltyft3K8zzCRpZH5s7J7PQ9ApMi75xzfAeybcE081aY2YHUC6PjpKHIRqh5RjGluE5cE0gdwVYwlHQTESK/sw5IReHXgMQfjpZJtgl/mj0sZpBw2CNP1kP/QB4gSiCWOCAQq8WGf62y2mWH1s/GEFskMoKB/xxxTNBI/TRyGntiEZY3/qzzTJTgS4pwL0x9Psb6+KK+NRB7LrZyGY88zfh1omj7ndyexApqmc1g7+aBjkrspo5nBYJomaimGUFNw5c32SlBDDrIbIie6sNtsGKhS6iTRgQs0Qpr6q9OX8dzd/GAQ7qzoGXRxFbwVuh6laYhhUSPVYAKaBex61SW1QAe+OLadLwFbFgCRCLw+kCXiABumiWRvF69zMxvlAmEGnNBj89B+BbJaXuFMYljB4M8E4IOTgBaXpsstVurXJlCb9RbXsEyJlKFWQSAUzq5BYQSjt8xNbBGbGUmuqGrTI313Yv2yvnp3DyNV4gtoRIruKbveilUOv1iosoeQ9EUtsOaz9tnL2Kl+VmSzRwWvhWanqoUs9jJYtlCTaqHceXjdauUdJxYoVEHqKkDWIFVUACDR4mEkh0zCq7T8C2E9ue+2yWks5RcneRyI+kCj5Awi90axcRNXt2Z6mdz5Q4GiOWRRJdRY2mqhvELJHE1X0fUvbk7BKxVknkESIxYjWQI0Q6Zk/NLt7+zeG70XOs5Y8Vg0K+t2fmRu7s5iA6Rkmu4uVXNHr9ju82APLD8BCZBnv8k/lOsf8BtGZGlLtvIGQAAAAASUVORK5CYII=',
+
 }
 
 export const imageSizes = {
@@ -432,6 +439,205 @@ export const diamondSprite = (itemState) => (track) => () => {
 	sprite.image.src = images.diamond
 
 	track(sprite)
+
+	sprite.update = function() {
+		if (itemState.isDragging) {
+			this.x = itemState.x
+			this.y = itemState.y
+		} else {
+			if (itemState.isPicked) {
+				this.x = itemState.x
+				this.y = itemState.y
+			}
+
+			if (!itemState.isPicked) {
+				this.x = itemState.x
+				this.y = (itemState.currentFloor - 1) * 600 + itemState.y
+			}
+		}
+	}
+
+	return sprite
+}
+
+export const redGemSprite = (itemState) => (track) => () => {
+	const sprite = Sprite({
+		type: 'red-gem',
+		x: itemState.x,
+		y: itemState.y,
+		width: 50,
+		height: 50,
+		image: new Image(),
+	})
+
+	track(sprite)
+
+	sprite.image.src = images.diamondBlue
+
+	sprite.update = function() {
+		if (itemState.isDragging) {
+			this.x = itemState.x
+			this.y = itemState.y
+		} else {
+			if (itemState.isPicked) {
+				this.x = itemState.x
+				this.y = itemState.y
+			}
+
+			if (!itemState.isPicked) {
+				this.x = itemState.x
+				this.y = (itemState.currentFloor - 1) * 600 + itemState.y
+			}
+		}
+	}
+
+	return sprite
+}
+export const yellowDiamondSprite = (itemState) => (track) => () => {
+	const sprite = Sprite({
+		type: 'yellow-diamond',
+		x: itemState.x,
+		y: itemState.y,
+		width: 50,
+		height: 50,
+		image: new Image(),
+	})
+
+	track(sprite)
+
+	sprite.image.src = images.diamondYellow
+
+	sprite.update = function() {
+		if (itemState.isDragging) {
+			this.x = itemState.x
+			this.y = itemState.y
+		} else {
+			if (itemState.isPicked) {
+				this.x = itemState.x
+				this.y = itemState.y
+			}
+
+			if (!itemState.isPicked) {
+				this.x = itemState.x
+				this.y = (itemState.currentFloor - 1) * 600 + itemState.y
+			}
+		}
+	}
+
+	return sprite
+}
+export const orangeDiamondSprite = (itemState) => (track) => () => {
+	const sprite = Sprite({
+		type: 'orange-diamond',
+		x: itemState.x,
+		y: itemState.y,
+		width: 50,
+		height: 50,
+		image: new Image(),
+	})
+
+	track(sprite)
+
+	sprite.image.src = images.orangeDiamond
+
+	sprite.update = function() {
+		if (itemState.isDragging) {
+			this.x = itemState.x
+			this.y = itemState.y
+		} else {
+			if (itemState.isPicked) {
+				this.x = itemState.x
+				this.y = itemState.y
+			}
+
+			if (!itemState.isPicked) {
+				this.x = itemState.x
+				this.y = (itemState.currentFloor - 1) * 600 + itemState.y
+			}
+		}
+	}
+
+	return sprite
+}
+export const emeraldSprite = (itemState) => (track) => () => {
+	const sprite = Sprite({
+		type: 'emerald',
+		x: itemState.x,
+		y: itemState.y,
+		width: 50,
+		height: 50,
+		image: new Image(),
+	})
+
+	track(sprite)
+
+	sprite.image.src = images.emerald
+
+	sprite.update = function() {
+		if (itemState.isDragging) {
+			this.x = itemState.x
+			this.y = itemState.y
+		} else {
+			if (itemState.isPicked) {
+				this.x = itemState.x
+				this.y = itemState.y
+			}
+
+			if (!itemState.isPicked) {
+				this.x = itemState.x
+				this.y = (itemState.currentFloor - 1) * 600 + itemState.y
+			}
+		}
+	}
+
+	return sprite
+}
+export const redDiamondSprite = (itemState) => (track) => () => {
+	const sprite = Sprite({
+		type: 'red-diamond',
+		x: itemState.x,
+		y: itemState.y,
+		width: 50,
+		height: 50,
+		image: new Image(),
+	})
+
+	track(sprite)
+
+	sprite.image.src = images.redDiamond
+
+	sprite.update = function() {
+		if (itemState.isDragging) {
+			this.x = itemState.x
+			this.y = itemState.y
+		} else {
+			if (itemState.isPicked) {
+				this.x = itemState.x
+				this.y = itemState.y
+			}
+
+			if (!itemState.isPicked) {
+				this.x = itemState.x
+				this.y = (itemState.currentFloor - 1) * 600 + itemState.y
+			}
+		}
+	}
+
+	return sprite
+}
+export const greenDiamondSprite = (itemState) => (track) => () => {
+	const sprite = Sprite({
+		type: 'green-diamond',
+		x: itemState.x,
+		y: itemState.y,
+		width: 50,
+		height: 50,
+		image: new Image(),
+	})
+
+	track(sprite)
+
+	sprite.image.src = images.greenDiamond
 
 	sprite.update = function() {
 		if (itemState.isDragging) {
