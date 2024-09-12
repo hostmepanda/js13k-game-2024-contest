@@ -440,12 +440,7 @@ function launchRound() {
 					gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
 				})
 
-			Object.values(elevatorsState).map(({ item }) => {
-				// item.render()
-			})
-
 			renderContext.restore()
-
 
 			const dashboardSelectorState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
 
