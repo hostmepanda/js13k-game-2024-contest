@@ -61,6 +61,9 @@ const floorCameraPoints = {
 const cameraPosition = {
 	y: floorCameraPoints.floor1.y,
 	x: 0,
+	dy: 4,
+	targetY: floorCameraPoints.floor1.y,
+	isMoving: false,
 }
 
 const gameElementsState = {
@@ -182,7 +185,7 @@ function launchRound() {
 			return
 		}
 		gameContext.activeFloor = gameContext.activeFloor - 1
-		cameraPosition.y = floorCameraPoints[`floor${gameContext.activeFloor}`].y
+		cameraPosition.targetY = floorCameraPoints[`floor${gameContext.activeFloor}`].y
 	}
 
 	const rightStairCaseDoorHandler = () => {
@@ -190,7 +193,7 @@ function launchRound() {
 			return
 		}
 		gameContext.activeFloor = gameContext.activeFloor + 1
-		cameraPosition.y = floorCameraPoints[`floor${gameContext.activeFloor}`].y
+		cameraPosition.targetY = floorCameraPoints[`floor${gameContext.activeFloor}`].y
 	}
 
 	const floor1Handlers= {
@@ -377,6 +380,12 @@ function launchRound() {
 			})
 
 			floorDashboardInElevator.update()
+			if (cameraPosition.targetY !== cameraPosition.y) {
+				cameraPosition.isMoving = true
+				cameraPosition.y = cameraPosition.targetY > cameraPosition.y ? cameraPosition.y + cameraPosition.dy : cameraPosition.y - cameraPosition.dy
+			} else {
+				cameraPosition.isMoving = false
+			}
 		},
 		render() {
 			itemSlots.render()
