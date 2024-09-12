@@ -71,7 +71,7 @@ const gameElementsState = {
 		id: 1,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 2,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		x: 400,
@@ -81,7 +81,7 @@ const gameElementsState = {
 		id: 2,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 4,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		x: 200,
@@ -347,6 +347,8 @@ function launchRound() {
 			})
 
 
+			const dashboardFloorSelectorOpenedState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
 				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (gameContext.activeFloor - 1) * canvasSize.height
 				const distance = Math.sqrt(
@@ -358,7 +360,7 @@ function launchRound() {
 					if (pointerPressed('left') && draggingElementId !== item.id) {
 						gameElementsState[item.type].isDragging = true
 						draggingElementId = item.id
-						gameElementsState[item.type].isPicked = false
+						gameElementsState[item.type].isPicked = dashboardFloorSelectorOpenedState ? true : false
 						slotBoxState.items = slotBoxState.items.filter((slot) => slot !== item.type)
 					}
 				}
@@ -375,7 +377,7 @@ function launchRound() {
 					if (!isColliding) {
 						gameElementsState[item.type].currentFloor = gameContext.activeFloor
 						gameElementsState[item.type].slotNumber = null
-						gameElementsState[item.type].isPicked = false
+						gameElementsState[item.type].isPicked = dashboardFloorSelectorOpenedState ? true : false
 						slotBoxState.items = slotBoxState.items.filter((type) => type !== item.type)
 					}
 				}
@@ -417,7 +419,7 @@ function launchRound() {
 			}
 		},
 		render() {
-			itemSlots.render()
+			const dashboardFloorSelectorOpenedState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
 
 			Object.entries(gameElementsState)
 				.filter(([, {isPicked}]) => isPicked)
@@ -428,25 +430,43 @@ function launchRound() {
 			renderContext.save()
 
 			renderContext.translate(0, -cameraPosition.y)
-
 			floorStages.forEach((floor) => {
 				floor.render()
 			})
 
-			Object
-				.entries(gameElementsState)
-				.filter(([, {isPicked}]) => !isPicked)
-				.forEach(([type]) => {
-					gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
-				})
+			if (!dashboardFloorSelectorOpenedState) {
+				Object
+					.entries(gameElementsState)
+					.filter(([, {isPicked}]) => !isPicked)
+					.forEach(([type]) => {
+						gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).forEach(({item}) => item.render())
+					})
+			}
 
 			renderContext.restore()
 
-			const dashboardSelectorState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+			if (dashboardFloorSelectorOpenedState) {
+				const pickedArtefacts = Object
+					.entries(gameElementsState)
+					.filter(([, {isPicked}]) => isPicked)
+					.map(([type]) => {
+						return gameArtefactsStates.filter(({type: spriteType}) => type === spriteType).map(({ item }) => item)
+					}).flat(2);
 
-			if (dashboardSelectorState) {
-				floorDashboardInElevator.render()
+				[
+					...floorDashboardInElevator.group,
+					itemSlots,
+					...pickedArtefacts,
+				].forEach(sprite => sprite.render())
+
+
 			}
+
+			if (!dashboardFloorSelectorOpenedState) {
+				itemSlots.render()
+			}
+
+
 		}
 	});
 
