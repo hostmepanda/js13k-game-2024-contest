@@ -74,6 +74,8 @@ const gameElementsState = {
 		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
 		x: 400,
 		y: 450,
 	},
@@ -84,6 +86,8 @@ const gameElementsState = {
 		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
 		x: 200,
 		y: 450,
 	},
@@ -126,6 +130,7 @@ function launchRound() {
 
 	const elevatorsState = {
 		left: {
+			id: 1,
 			item: elevatorFrame(
 				canvasSize.width / 8 * 2,
 				floorCameraPoints.floor5.y + canvasSize.height / 2 - 20
@@ -145,6 +150,7 @@ function launchRound() {
 			shouldWaitForCameraUpdate: false,
 		},
 		middle: {
+			id: 2,
 			item: elevatorFrame(
 				canvasSize.width / 8 * 3.5,
 				floorCameraPoints.floor8.y + canvasSize.height / 2 - 20,
@@ -164,6 +170,7 @@ function launchRound() {
 			shouldWaitForCameraUpdate: false,
 		},
 		right: {
+			id: 3,
 			item: elevatorFrame(
 				canvasSize.width / 8 * 5,
 				floorCameraPoints.floor12.y + canvasSize.height / 2 - 20,
@@ -274,7 +281,7 @@ function launchRound() {
 		},
 	}
 
-	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize)()
+	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize, gameElementsState, slotCoordinates)()
 
 	let timerPassed = 0
 	let loop = GameLoop({
@@ -348,7 +355,6 @@ function launchRound() {
 
 
 			const dashboardFloorSelectorOpenedState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
-
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
 				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (gameContext.activeFloor - 1) * canvasSize.height
 				const distance = Math.sqrt(
@@ -370,21 +376,44 @@ function launchRound() {
 					draggingElementId = false
 					gameElementsState[item.type].y = pointer.y - 15
 
-					slotBoxState.items.push(item.type)
+					if (dashboardFloorSelectorOpenedState) {
+						if(collides(item, floorDashboardInElevator.group.at(-1))) {
+							gameElementsState[item.type].placedToHole = true
+							gameElementsState[item.type].elevatorPlaced = dashboardFloorSelectorOpenedState.id
+						}
+					}
+
+					if (!slotBoxState.items.find(({ type })=> type === item.type)) {
+						slotBoxState.items.push(item.type)
+					}
+
 					gameElementsState[item.type].slotNumber = slotBoxState.items.length
 					gameElementsState[item.type].isPicked = true
 
-					if (!isColliding) {
+					if (!isColliding && !dashboardFloorSelectorOpenedState) {
 						gameElementsState[item.type].currentFloor = gameContext.activeFloor
 						gameElementsState[item.type].slotNumber = null
-						gameElementsState[item.type].isPicked = dashboardFloorSelectorOpenedState ? true : false
+						gameElementsState[item.type].isPicked = false
 						slotBoxState.items = slotBoxState.items.filter((type) => type !== item.type)
 					}
 				}
 
 				if (gameElementsState[item.type].isDragging) {
+					gameElementsState[item.type].placedToHole = false
+					gameElementsState[item.type].elavalorPlaced = null
 					gameElementsState[item.type].x = pointer.x - 15
 					gameElementsState[item.type].y = pointer.y - 15 + (gameContext.activeFloor - 1) * canvasSize.height
+				}
+
+				if (gameElementsState[item.type].placedToHole && !gameElementsState[item.type].isDragging) {
+					const holeElement = floorDashboardInElevator.group.at(-1)
+					gameElementsState[item.type].x = holeElement.x + (holeElement.width / 2) - (item.width / 2) + 9
+					gameElementsState[item.type].y = holeElement.y + (holeElement.height / 2) - (item.height / 2) + 9
+				}
+
+				if (!dashboardFloorSelectorOpenedState) {
+					gameElementsState[item.type].placedToHole = false
+					gameElementsState[item.type].elevatorPlaced = null
 				}
 
 				item.update()
