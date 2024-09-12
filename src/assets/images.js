@@ -311,8 +311,6 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 				(triangleDownSprite.x - (pointer.x - 15)) ** 2 + (triangleDownSprite.y - (pointer.y - 15) - yAxisShift) ** 2
 			)
 
-			const isOverFrame = pointer.x < frame.x + frame.width && pointer.x > frame.x && pointer.y < frame.y - yAxisShift + frame.height && pointer.y > frame.y
-
 			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left') && !state.isOpen && !state.isClosing && !state.isMoving) {
 				state.targetFloor = gameContext.activeFloor
 				state.isMoving = state.targetFloor !== state.currentFloor

@@ -45,12 +45,12 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key is on the floor 13')
 		} else {
 			leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
-			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'DOWN', 'rgb(255,0,0)', 20)
+			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
 		}
 
 		if (floorNumber < 13) {
 			rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
-			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
+			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'DOWN', 'rgb(255,0,0)', 20)
 		}
 
 		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext, floorNumber, canvasSize)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
