@@ -135,6 +135,7 @@ function launchRound() {
 			isMovingDown: false,
 			shouldOpen: true,
 			isShowingFloorSelector: false,
+			isMovingUser: false,
 			currentFloor: 1,
 			targetFloor: 1,
 			dy: 8,
@@ -152,6 +153,7 @@ function launchRound() {
 			isMovingDown: false,
 			shouldOpen: false,
 			isShowingFloorSelector: false,
+			isMovingUser: false,
 			currentFloor: 8,
 			targetFloor: 8,
 			dy: 10,
@@ -169,6 +171,7 @@ function launchRound() {
 			isMovingDown: false,
 			shouldOpen: false,
 			isShowingFloorSelector: false,
+			isMovingUser: false,
 			currentFloor: 12,
 			targetFloor: 12,
 			dy: 15,
@@ -267,15 +270,13 @@ function launchRound() {
 
 	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize)()
 
+	let timerPassed = 0
 	let loop = GameLoop({
-		update() {
-			const busySlots = Object
-				.values(gameElementsState)
-				.filter(({ slotNumber }) => !!slotNumber)
-				.map(({slotNumber}) => slotNumber)
+		update(timeDiff) {
+			timerPassed += timeDiff
 
 			floorStages.forEach((floor) => {
-				floor.update()
+				floor.update(timeDiff)
 			})
 
 			itemSlots.update()

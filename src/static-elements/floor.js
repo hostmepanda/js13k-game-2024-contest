@@ -58,10 +58,10 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, gameContext, floorNumber, canvasSize)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
 
 		return {
-			update() {
-				leftElevatorWithDoors.update()
-				middleElevatorWithDoors.update()
-				rightElevatorWithDoors.update()
+			update(dt) {
+				leftElevatorWithDoors.update(dt)
+				middleElevatorWithDoors.update(dt)
+				rightElevatorWithDoors.update(dt)
 				leftStairCaseDoor.update()
 
 				if (floorNumber < 13) {
