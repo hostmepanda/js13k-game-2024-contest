@@ -142,6 +142,7 @@ function launchRound() {
 			currentFloor: 1,
 			targetFloor: 1,
 			dy: 8,
+			shouldWaitForCameraUpdate: false,
 		},
 		middle: {
 			item: elevatorFrame(
@@ -160,6 +161,7 @@ function launchRound() {
 			currentFloor: 8,
 			targetFloor: 8,
 			dy: 10,
+			shouldWaitForCameraUpdate: false,
 		},
 		right: {
 			item: elevatorFrame(
@@ -178,6 +180,7 @@ function launchRound() {
 			currentFloor: 12,
 			targetFloor: 12,
 			dy: 15,
+			shouldWaitForCameraUpdate: false,
 		},
 	}
 	const leftStairCaseDoorHandler = () => {
@@ -286,7 +289,11 @@ function launchRound() {
 
 			Object.values(elevatorsState).forEach((state) => {
 				if (state.isMoving) {
-					state.item.y = state.item.y + (state.isMovingUp ? state.dy : -state.dy)
+					if (state.isMovingUser) {
+						state.item.y = state.item.y + (state.isMovingUp ? cameraPosition.dy : -cameraPosition.dy)
+					} else {
+						state.item.y = state.item.y + (state.isMovingUp ? state.dy : -state.dy)
+					}
 				}
 
 				if (state.item.y <= floorPointsSwitcher.floor1 + 5) {
@@ -323,12 +330,23 @@ function launchRound() {
 					state.isMovingUp = false
 					state.isMovingDown = false
 					state.item.y = floorPointsSwitcher[`floor${state.currentFloor}`]
-					state.isOpening = state.shouldOpen
-					state.isMovingUser = false
+
+					if (state.isMovingUser) {
+						gameContext.activeFloor = state.currentFloor
+					}
+					if (state.isMovingUser && cameraPosition.targetY === cameraPosition.y) {
+						state.shouldWaitForCameraUpdate = false
+					}
+					if (!state.shouldWaitForCameraUpdate) {
+						state.isOpening = state.shouldOpen
+						state.isMovingUser = false
+					}
 				}
 
 				state.item.update()
 			})
+
+
 			gameArtefactsStates.forEach(({ item, isPicked, currentFloor}) => {
 				const absolutionItemY = gameElementsState[item.type].isPicked ? item.y : item.y - (gameContext.activeFloor - 1) * canvasSize.height
 				const distance = Math.sqrt(
@@ -380,11 +398,22 @@ function launchRound() {
 			})
 
 			floorDashboardInElevator.update()
+
+			const movingUserElevator = Object.values(elevatorsState).find(({ isMovingUser, isMoving }) => isMovingUser && isMoving)
+
+			if (movingUserElevator) {
+				cameraPosition.dy = 4
+				cameraPosition.targetY = floorCameraPoints[`floor${movingUserElevator.targetFloor}`].y
+				movingUserElevator.shouldWaitForCameraUpdate = true
+			}
+
 			if (cameraPosition.targetY !== cameraPosition.y) {
 				cameraPosition.isMoving = true
 				cameraPosition.y = cameraPosition.targetY > cameraPosition.y ? cameraPosition.y + cameraPosition.dy : cameraPosition.y - cameraPosition.dy
 			} else {
 				cameraPosition.isMoving = false
+				cameraPosition.dy = 2
+				cameraPosition.y = cameraPosition.targetY
 			}
 		},
 		render() {
