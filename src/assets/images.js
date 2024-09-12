@@ -470,7 +470,6 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize) =
 		color: 'rgba(52,125,158)',
 	})
 
-
 	const buttons = [1,2,3,4,5,6,7,8,9,10,11,12,13].map(
 		floorNumber => {
 			let button = Button({
@@ -509,7 +508,8 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize) =
 			return button
 		}
 	)
-	buttons.push(Button({
+
+	const exitButton = Button({
 		x: dashboardPlate.x + dashboardPlate.width / 2,
 		y: dashboardPlate.y + dashboardPlate.height - 40,
 		width: 90,
@@ -536,9 +536,33 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize) =
 			activeState.isShowingFloorSelector = false
 			activeState.autoClose = 30
 		}
-	}))
+	})
 
-	const spriteGroup = [shadowDrop, dashboardPlate, ...buttons]
+	buttons.push(exitButton)
+
+	const itemHole = Button({
+		x: dashboardPlate.x + dashboardPlate.width / 2 - 50,
+		y: dashboardPlate.y + dashboardPlate.height - 180,
+		width: 100,
+		height: 100,
+		radius: 30,
+		color: 'rgb(255,255,198)',
+	})
+
+	itemHole.render = function() {
+		// // Draw the rectangle (or the outer shape)
+		context.fillStyle = this.color;
+		context.beginPath();
+		context.arc(this.x + this.width / 2, this.y + this.height / 2, this.radius, 0, Math.PI * 2);
+		context.fill();
+		context.globalCompositeOperation = 'destination-out';  // Erase part of the shape
+		context.beginPath();
+		context.arc(this.x + this.width / 2, this.y + this.height / 2, this.radius-5, 0, Math.PI * 2);
+		context.fill();
+		context.globalCompositeOperation = 'source-over';
+	}
+
+	const spriteGroup = [shadowDrop, dashboardPlate, ...buttons, itemHole]
 
 	return {
 		group: spriteGroup,
