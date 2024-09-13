@@ -447,7 +447,6 @@ export const diamondSprite = (itemState) => (track) => () => {
 	sprite.image.src = images.diamond
 
 	track(sprite)
-	console.log(itemState)
 	sprite.update = function() {
 		if (itemState.isDragging) {
 			this.x = itemState.x
