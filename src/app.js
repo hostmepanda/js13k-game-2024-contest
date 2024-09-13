@@ -477,6 +477,13 @@ function launchRound() {
 			})
 
 			itemSlots.update()
+			const key = gameArtefactsStates.find(({ type }) => type === artefactId.key).item
+			const lock = gameArtefactsStates.find(({ type }) => type === artefactId.lock).item
+			if (collides(key, lock)) {
+				if (!pointerPressed('left')) {
+					gameContext.isGameCompleted = true
+				}
+			}
 
 			Object.values(elevatorsState).forEach((state) => {
 				if (state.isMoving) {
