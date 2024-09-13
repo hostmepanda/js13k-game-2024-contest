@@ -5,9 +5,7 @@ import {imageSizes, images} from './assets/images'
 let elevatorClosed
 
 function preload() {
-	this.textures.addBase64('elevator-background', images.backgroundElevator)
 	this.textures.addBase64('elevator-blink', images.doorBlink)
-	this.textures.addBase64('elevator-door', images.elevatorDoor)
 	this.textures.addBase64('elevator-door-jam', images.doorJam)
 	this.textures.addBase64('elevator-floor-shadow', images.floorShadow)
 	this.textures.addBase64('elevator-indicator', images.indicator)
