@@ -88,6 +88,90 @@ const artefactId = {
 	lock: 'lock',
 }
 
+const elevatorsState = {
+	left: {
+		id: 1,
+		item: elevatorFrame(
+			canvasSize.width / 8 * 2,
+			floorCameraPoints.floor5.y + canvasSize.height / 2 - 20
+		),
+		isOpen: false,
+		isOpening: true,
+		isClosing: false,
+		isMoving: false,
+		isMovingUp: false,
+		isMovingDown: false,
+		shouldOpen: false,
+		isShowingFloorSelector: false,
+		isMovingUser: false,
+		currentFloor: 1,
+		targetFloor: 1,
+		dy: 8,
+		shouldWaitForCameraUpdate: false,
+		stopFloors: {
+			default: [1],
+			unblockedFloors: [],
+			[artefactId.yellowGem]: [6],
+			[artefactId.redGem]: [12],
+			[artefactId.orangeDiamond]: [7],
+		}
+	},
+	middle: {
+		id: 2,
+		item: elevatorFrame(
+			canvasSize.width / 8 * 3.5,
+			floorCameraPoints.floor8.y + canvasSize.height / 2 - 20,
+		),
+		isOpen: false,
+		isOpening: false,
+		isClosing: false,
+		isMoving: false,
+		isMovingUp: false,
+		isMovingDown: false,
+		shouldOpen: false,
+		isShowingFloorSelector: false,
+		isMovingUser: false,
+		currentFloor: 8,
+		targetFloor: 8,
+		dy: 10,
+		shouldWaitForCameraUpdate: false,
+		stopFloors: {
+			default: [1],
+			unblockedFloors: [],
+			[artefactId.diamond]: [3, 5, 8],
+			[artefactId.greenDiamond]: [10],
+		}
+	},
+	right: {
+		id: 3,
+		item: elevatorFrame(
+			canvasSize.width / 8 * 5,
+			floorCameraPoints.floor12.y + canvasSize.height / 2 - 20,
+		),
+		isOpen: false,
+		isOpening: false,
+		isClosing: false,
+		isMoving: false,
+		isMovingUp: false,
+		isMovingDown: false,
+		shouldOpen: false,
+		isShowingFloorSelector: false,
+		isMovingUser: false,
+		currentFloor: 12,
+		targetFloor: 12,
+		dy: 15,
+		shouldWaitForCameraUpdate: false,
+		stopFloors: {
+			default: [1],
+			unblockedFloors: [],
+			[artefactId.yellowDiamond]: [4],
+			[artefactId.yellowGem]: [1],
+			[artefactId.emerald]: [9],
+			[artefactId.redDiamond]: [7],
+		}
+	},
+}
+
 const gameElementsState = {
 	[artefactId.yellowGem]: {
 		type: artefactId.yellowGem,
@@ -223,7 +307,7 @@ const gameElementsState = {
 
 const gameArtefactsStates = [
 	{
-		item: gemSprite(gameElementsState[artefactId.yellowGem])(track)(),
+		item: gemSprite(gameElementsState[artefactId.yellowGem], elevatorsState)(track)(),
 		type: artefactId.yellowGem,
 	}, {
 		item: diamondSprite(gameElementsState[artefactId.diamond])(track)(),
@@ -288,89 +372,6 @@ function launchRound() {
 		up: [2,5,12],
 	}
 
-	const elevatorsState = {
-		left: {
-			id: 1,
-			item: elevatorFrame(
-				canvasSize.width / 8 * 2,
-				floorCameraPoints.floor5.y + canvasSize.height / 2 - 20
-			),
-			isOpen: false,
-			isOpening: true,
-			isClosing: false,
-			isMoving: false,
-			isMovingUp: false,
-			isMovingDown: false,
-			shouldOpen: false,
-			isShowingFloorSelector: false,
-			isMovingUser: false,
-			currentFloor: 1,
-			targetFloor: 1,
-			dy: 8,
-			shouldWaitForCameraUpdate: false,
-			stopFloors: {
-				default: [1],
-				unblockedFloors: [],
-				[artefactId.yellowGem]: [6],
-				[artefactId.redGem]: [12],
-				[artefactId.orangeDiamond]: [7],
-			}
-		},
-		middle: {
-			id: 2,
-			item: elevatorFrame(
-				canvasSize.width / 8 * 3.5,
-				floorCameraPoints.floor8.y + canvasSize.height / 2 - 20,
-			),
-			isOpen: false,
-			isOpening: false,
-			isClosing: false,
-			isMoving: false,
-			isMovingUp: false,
-			isMovingDown: false,
-			shouldOpen: false,
-			isShowingFloorSelector: false,
-			isMovingUser: false,
-			currentFloor: 8,
-			targetFloor: 8,
-			dy: 10,
-			shouldWaitForCameraUpdate: false,
-			stopFloors: {
-				default: [1],
-				unblockedFloors: [],
-				[artefactId.diamond]: [3, 5, 8],
-				[artefactId.greenDiamond]: [10],
-			}
-		},
-		right: {
-			id: 3,
-			item: elevatorFrame(
-				canvasSize.width / 8 * 5,
-				floorCameraPoints.floor12.y + canvasSize.height / 2 - 20,
-			),
-			isOpen: false,
-			isOpening: false,
-			isClosing: false,
-			isMoving: false,
-			isMovingUp: false,
-			isMovingDown: false,
-			shouldOpen: false,
-			isShowingFloorSelector: false,
-			isMovingUser: false,
-			currentFloor: 12,
-			targetFloor: 12,
-			dy: 15,
-			shouldWaitForCameraUpdate: false,
-			stopFloors: {
-				default: [1],
-				unblockedFloors: [],
-				[artefactId.yellowDiamond]: [4],
-				[artefactId.yellowGem]: [1],
-				[artefactId.emerald]: [9],
-				[artefactId.redDiamond]: [7],
-			}
-		},
-	}
 
 	const floorStages = [1,2,3,4,5,6,7,8,9,10,11,12,13].map(
 		(floorNumber) => {
@@ -710,8 +711,6 @@ function launchRound() {
 					itemSlots,
 					...pickedArtefacts,
 				].forEach(sprite => sprite.render())
-
-
 			}
 
 			if (!dashboardFloorSelectorOpenedState) {

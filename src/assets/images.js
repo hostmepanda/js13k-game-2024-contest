@@ -400,7 +400,7 @@ export const closedDoorStairCase = (track, onDown) => (x, y) => {
 	return doorSprite
 }
 
-export const gemSprite = (itemState) => (track) => () => {
+export const gemSprite = (itemState, elevatorState) => (track) => () => {
 	const sprite = Sprite({
 		type: 'yellow-gem',
 		x: itemState.x,
@@ -447,7 +447,7 @@ export const diamondSprite = (itemState) => (track) => () => {
 	sprite.image.src = images.diamond
 
 	track(sprite)
-
+	console.log(itemState)
 	sprite.update = function() {
 		if (itemState.isDragging) {
 			this.x = itemState.x
