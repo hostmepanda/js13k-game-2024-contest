@@ -275,7 +275,7 @@ const floorIndicator = (context, state) => (x, y) => {
 	return indicatorSprite
 }
 
-export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext, floorNumber, canvasSize) => (x, y) => {
+export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext, floorNumber, gameElementsState, elevatorState) => (x, y) => {
 	const frame = elevatorFrame(x, y)
 	const elevatorButtonSprite = elevatorButton(context)(frame.x + frame.width + 2, frame.y + frame.height / 2 - 20)
 	const triangleUpSprite= triangleUp(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)
@@ -318,12 +318,17 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 				(triangleDownSprite.x - (pointer.x - 15)) ** 2 + (triangleDownSprite.y - (pointer.y - 15) - yAxisShift) ** 2
 			)
 
+			const isItemPlaced = Object.values(gameElementsState).find(({ picked, placedToHole, elevatorPlaced }) => picked && placedToHole && elevatorPlaced === state.id)
+
+			const shouldOpenDoors = state.stopFloors?.[isItemPlaced?.type]?.includes(gameContext.activeFloor)
+				|| state.stopFloors.default.includes(gameContext.activeFloor)
+
 			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left') && !state.isOpen && !state.isClosing && !state.isMoving) {
 				state.targetFloor = gameContext.activeFloor
 				state.isMoving = state.targetFloor !== state.currentFloor
 				state.isMovingUp = state.targetFloor > state.currentFloor
 				state.isMovingDown = state.targetFloor < state.currentFloor
-				state.shouldOpen = true
+				state.shouldOpen = shouldOpenDoors
 				state.isShowingFloorSelector = false
 			}
 
@@ -679,6 +684,8 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 	const buttons = [1,2,3,4,5,6,7,8,9,10,11,12,13].map(
 		floorNumber => {
 			let button = Button({
+				id: floorNumber,
+				isEnabled: false,
 				x: dashboardPlate.x + 68 + (floorNumber - 1) % 3 * 85,
 				y: dashboardPlate.y + 80 + Math.floor((floorNumber - 1) / 3)  * 55,
 				width: 70,
@@ -701,13 +708,17 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 				onUp() {
 					this.y -= 3;
 
-					const activeState = Object.values(state).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
-					activeState.isShowingFloorSelector = false
-					activeState.targetFloor = floorNumber
-					activeState.isClosing = true
-					activeState.isMovingUser = true
-					activeState.shouldOpen = true
-					activeState.autClose = null
+					if (this.isEnabled) {
+						const activeState = Object.values(state).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+						if (activeState.currentFloor !== floorNumber) {
+							activeState.isShowingFloorSelector = false
+							activeState.targetFloor = floorNumber
+							activeState.isClosing = true
+							activeState.isMovingUser = true
+							activeState.shouldOpen = true
+							activeState.autClose = null
+						}
+					}
 				}
 			});
 
@@ -785,6 +796,14 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 	return {
 		group: spriteGroup,
 		update: () => {
+			const activatedElevatorState = Object.values(state).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
+
+			activatedElevatorState?.stopFloors?.default?.forEach((allowedFloor) => {
+				const buttonToEnable = buttons.find(({id}) => id === allowedFloor)
+				buttonToEnable.color = 'rgb(37,148,0)'
+				buttonToEnable.isEnabled = true
+			})
+
 			spriteGroup.map(sprite => sprite.update())
 		},
 		render: () => {

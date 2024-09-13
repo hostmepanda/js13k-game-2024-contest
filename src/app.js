@@ -71,8 +71,19 @@ const cameraPosition = {
 	isMoving: false,
 }
 
+const artefactId = {
+	yellowGem: 'yellow-gem',
+	diamond: 'diamond',
+	redGem: 'red-gem',
+	yellowDiamond: 'yellow-diamond',
+	orangeDiamond: 'orange-diamond',
+	emerald: 'emerald',
+	redDiamond: 'red-diamond',
+	greenDiamond: 'green-diamond',
+}
+
 const gameElementsState = {
-	'yellow-gem': {
+	[artefactId.yellowGem]: {
 		id: 1,
 		isPicked: false,
 		isUsed: false,
@@ -84,7 +95,7 @@ const gameElementsState = {
 		x: 400,
 		y: 450,
 	},
-	'diamond': {
+	[artefactId.diamond]: {
 		id: 2,
 		isPicked: false,
 		isUsed: false,
@@ -96,7 +107,7 @@ const gameElementsState = {
 		x: 200,
 		y: 450,
 	},
-	'red-gem': {
+	[artefactId.redGem]: {
 		id: 3,
 		isPicked: false,
 		isUsed: false,
@@ -108,7 +119,7 @@ const gameElementsState = {
 		x: 260,
 		y: 450,
 	},
-	'yellow-diamond': {
+	[artefactId.yellowDiamond]: {
 		id: 4,
 		isPicked: false,
 		isUsed: false,
@@ -120,7 +131,7 @@ const gameElementsState = {
 		x: 160,
 		y: 450,
 	},
-	'orange-diamond': {
+	[artefactId.orangeDiamond]: {
 		id: 5,
 		isPicked: false,
 		isUsed: false,
@@ -132,7 +143,7 @@ const gameElementsState = {
 		x: 30,
 		y: 450,
 	},
-	'emerald': {
+	[artefactId.emerald]: {
 		id: 6,
 		isPicked: false,
 		isUsed: false,
@@ -144,8 +155,8 @@ const gameElementsState = {
 		x: 80,
 		y: 450,
 	},
-	'red-diamond': {
-		id: 6,
+	[artefactId.redDiamond]: {
+		id: 7,
 		isPicked: false,
 		isUsed: false,
 		currentFloor: 1,
@@ -156,8 +167,8 @@ const gameElementsState = {
 		x: 130,
 		y: 550,
 	},
-	'green-diamond': {
-		id: 6,
+	[artefactId.greenDiamond]: {
+		id: 8,
 		isPicked: false,
 		isUsed: false,
 		currentFloor: 1,
@@ -172,29 +183,29 @@ const gameElementsState = {
 
 const gameArtefactsStates = [
 	{
-		item: gemSprite(gameElementsState['yellow-gem'])(track)(),
-		type: 'yellow-gem',
+		item: gemSprite(gameElementsState[artefactId.yellowGem])(track)(),
+		type: artefactId.yellowGem,
 	}, {
-		item: diamondSprite(gameElementsState['diamond'])(track)(),
-		type: 'diamond',
+		item: diamondSprite(gameElementsState[artefactId.diamond])(track)(),
+		type: artefactId.diamond,
 	}, {
-		item: redGemSprite(gameElementsState['red-gem'], renderContext)(track)(),
-		type: 'red-gem',
+		item: redGemSprite(gameElementsState[artefactId.redGem], renderContext)(track)(),
+		type: artefactId.redGem,
 	}, {
-		item: yellowDiamondSprite(gameElementsState['yellow-diamond'], renderContext)(track)(),
-		type: 'yellow-diamond',
+		item: yellowDiamondSprite(gameElementsState[artefactId.yellowDiamond], renderContext)(track)(),
+		type: artefactId.yellowDiamond,
 	}, {
-		item: orangeDiamondSprite(gameElementsState['orange-diamond'], renderContext)(track)(),
-		type: 'orange-diamond',
+		item: orangeDiamondSprite(gameElementsState[artefactId.orangeDiamond], renderContext)(track)(),
+		type: artefactId.orangeDiamond,
 	}, {
-		item: emeraldSprite(gameElementsState['emerald'], renderContext)(track)(),
-		type: 'emerald',
+		item: emeraldSprite(gameElementsState[artefactId.emerald], renderContext)(track)(),
+		type: artefactId.emerald,
 	}, {
-		item: redDiamondSprite(gameElementsState['red-diamond'], renderContext)(track)(),
-		type: 'red-diamond',
+		item: redDiamondSprite(gameElementsState[artefactId.redDiamond], renderContext)(track)(),
+		type: artefactId.redDiamond,
 	}, {
-		item: greenDiamondSprite(gameElementsState['green-diamond'], renderContext)(track)(),
-		type: 'green-diamond',
+		item: greenDiamondSprite(gameElementsState[artefactId.greenDiamond], renderContext)(track)(),
+		type: artefactId.greenDiamond,
 	}
 ]
 
@@ -236,13 +247,19 @@ function launchRound() {
 			isMoving: false,
 			isMovingUp: false,
 			isMovingDown: false,
-			shouldOpen: true,
+			shouldOpen: false,
 			isShowingFloorSelector: false,
 			isMovingUser: false,
 			currentFloor: 1,
 			targetFloor: 1,
 			dy: 8,
 			shouldWaitForCameraUpdate: false,
+			stopFloors: {
+				default: [1],
+				[artefactId.yellowGem]: [6],
+				[artefactId.redGem]: [12],
+				[artefactId.orangeDiamond]: [7],
+			}
 		},
 		middle: {
 			id: 2,
@@ -263,6 +280,11 @@ function launchRound() {
 			targetFloor: 8,
 			dy: 10,
 			shouldWaitForCameraUpdate: false,
+			stopFloors: {
+				default: [],
+				[artefactId.diamond]: [3, 5, 8],
+				[artefactId.greenDiamond]: [10],
+			}
 		},
 		right: {
 			id: 3,
@@ -283,6 +305,13 @@ function launchRound() {
 			targetFloor: 12,
 			dy: 15,
 			shouldWaitForCameraUpdate: false,
+			stopFloors: {
+				default: [],
+				[artefactId.yellowDiamond]: [4],
+				[artefactId.yellowGem]: [1],
+				[artefactId.emerald]: [9],
+				[artefactId.redDiamond]: [7],
+			}
 		},
 	}
 
@@ -321,6 +350,7 @@ function launchRound() {
 				elevatorsState,
 				pointer,
 				gameContext,
+				gameElementsState,
 			)(floor1Handlers)
 		}
 	)
