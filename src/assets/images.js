@@ -309,7 +309,6 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 	return {
 		group,
 		update(diffTime) {
-			console.log('--gameContext', gameContext)
 			group.map(sprite => sprite.update())
 			const distanceTopArrow = Math.sqrt(
 				(triangleUpSprite.x - (pointer.x - 15)) ** 2 + (triangleUpSprite.y - (pointer.y - 15) - yAxisShift) ** 2

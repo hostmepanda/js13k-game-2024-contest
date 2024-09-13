@@ -290,7 +290,7 @@ function launchRound() {
 			dy: 10,
 			shouldWaitForCameraUpdate: false,
 			stopFloors: {
-				default: [],
+				default: [1],
 				unblockedFloors: [],
 				[artefactId.diamond]: [3, 5, 8],
 				[artefactId.greenDiamond]: [10],
@@ -316,7 +316,7 @@ function launchRound() {
 			dy: 15,
 			shouldWaitForCameraUpdate: false,
 			stopFloors: {
-				default: [],
+				default: [1],
 				unblockedFloors: [],
 				[artefactId.yellowDiamond]: [4],
 				[artefactId.yellowGem]: [1],
