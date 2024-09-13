@@ -70,7 +70,8 @@ const floorCameraPoints = {
 const cameraPosition = {
 	y: floorCameraPoints.floor1.y,
 	x: 0,
-	dy: 4,
+	dy: 40,
+	// dy: 4,
 	targetY: floorCameraPoints.floor1.y,
 	isMoving: false,
 }
@@ -106,7 +107,8 @@ const elevatorsState = {
 		isMovingUser: false,
 		currentFloor: 1,
 		targetFloor: 1,
-		dy: 8,
+		// dy: 8,
+		dy: 15,
 		shouldWaitForCameraUpdate: false,
 		stopFloors: {
 			default: [1],
@@ -133,7 +135,8 @@ const elevatorsState = {
 		isMovingUser: false,
 		currentFloor: 8,
 		targetFloor: 8,
-		dy: 10,
+		dy: 20,
+		// dy: 10,
 		shouldWaitForCameraUpdate: false,
 		stopFloors: {
 			default: [1],
@@ -159,7 +162,8 @@ const elevatorsState = {
 		isMovingUser: false,
 		currentFloor: 12,
 		targetFloor: 12,
-		dy: 15,
+		dy: 20,
+		// dy: 15,
 		shouldWaitForCameraUpdate: false,
 		stopFloors: {
 			default: [1],
@@ -167,7 +171,7 @@ const elevatorsState = {
 			[artefactId.yellowDiamond]: [4],
 			[artefactId.yellowGem]: [1],
 			[artefactId.emerald]: [9],
-			[artefactId.redDiamond]: [7],
+			[artefactId.redDiamond]: [13],
 		}
 	},
 }
