@@ -2,9 +2,13 @@ import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kont
 import {
 	diamondSprite,
 	elevatorFloorSelector,
-	elevatorFrame, emeraldSprite,
-	gemSprite, greenDiamondSprite, orangeDiamondSprite, redDiamondSprite,
-	redGemSprite, yellowDiamondGemSprite,
+	elevatorFrame,
+	emeraldSprite,
+	gemSprite,
+	greenDiamondSprite,
+	orangeDiamondSprite,
+	redDiamondSprite,
+	redGemSprite,
 	yellowDiamondSprite
 } from './assets/images'
 import {floorColor} from './colors'
@@ -242,6 +246,11 @@ function launchRound() {
 		floor13: floorCameraPoints.floor13.y + canvasSize.height / 2 - 20,
 	}
 
+	const stairCaseDoorByFloor = {
+		down: [1,4,11],
+		up: [2,5,12],
+	}
+
 	const elevatorsState = {
 		left: {
 			id: 1,
@@ -326,29 +335,6 @@ function launchRound() {
 		},
 	}
 
-	const leftStairCaseDoorHandler = () => {
-		if (gameContext.activeFloor === 1) {
-			return
-		}
-		gameContext.activeFloor = gameContext.activeFloor - 1
-		cameraPosition.targetY = floorCameraPoints[`floor${gameContext.activeFloor}`].y
-	}
-
-	const rightStairCaseDoorHandler = () => {
-		if (gameContext.activeFloor === 13) {
-			return
-		}
-		gameContext.activeFloor = gameContext.activeFloor + 1
-		cameraPosition.targetY = floorCameraPoints[`floor${gameContext.activeFloor}`].y
-	}
-
-	const floor1Handlers= {
-		handlers: {
-			leftStairCaseDoorHandler,
-			rightStairCaseDoorHandler,
-		},
-	}
-
 	const floorStages = [1,2,3,4,5,6,7,8,9,10,11,12,13].map(
 		(floorNumber) => {
 			return initFloor(
@@ -362,7 +348,10 @@ function launchRound() {
 				pointer,
 				gameContext,
 				gameElementsState,
-			)(floor1Handlers)
+				stairCaseDoorByFloor,
+				cameraPosition,
+				floorCameraPoints,
+			)()
 		}
 	)
 	const itemSlots = createSlotsBox(renderContext)(5, 500)
@@ -601,6 +590,7 @@ function launchRound() {
 			renderContext.save()
 
 			renderContext.translate(0, -cameraPosition.y)
+
 			floorStages.forEach((floor) => {
 				floor.render()
 			})

@@ -275,7 +275,7 @@ const floorIndicator = (context, state) => (x, y) => {
 	return indicatorSprite
 }
 
-export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext, floorNumber, gameElementsState, elevatorState) => (x, y) => {
+export const elevator = (track, context, handler, state, pointer, yAxisShift, gameContext, floorNumber, gameElementsState) => (x, y) => {
 	const frame = elevatorFrame(x, y)
 	const elevatorButtonSprite = elevatorButton(context)(frame.x + frame.width + 2, frame.y + frame.height / 2 - 20)
 	const triangleUpSprite= triangleUp(context, state)(elevatorButtonSprite.x+8, elevatorButtonSprite.y+7)

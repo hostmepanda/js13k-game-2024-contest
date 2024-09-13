@@ -7,13 +7,8 @@ import {
 	wallText
 } from '../assets/images'
 
-export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber, renderContext, elevatorsState, pointer, gameContext, gameElementsState) =>
-	({
-		 handlers: {
-			 leftStairCaseDoorHandler,
-			 rightStairCaseDoorHandler,
-		 },
-	 }) => {
+export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, floorNumber, renderContext, elevatorsState, pointer, gameContext, gameElementsState, stairCaseDoorByFloor, cameraPosition, floorCameraPoints) =>
+	() => {
 		const floorStartX = 0;
 		const floorStartY = floorAnkerPoints.y
 
@@ -40,17 +35,49 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 		const background = createStaticBackground(canvasSize, color, { x: floorStartX, y:  floorStartY })
 		const wallFloorNumber = wallText(canvasSize.width / 2, floorStartY + canvasSize.height / 4, textOnTheWall)
 
-		if (floorNumber === 1) {
-			leftStairCaseDoor = closedDoorStairCase(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
-			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key is on the floor 13')
-		} else {
-			leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
-			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
+		const rightStairCaseDoorHandler = () => {
+			if (gameContext.activeFloor === 13) {
+				return
+			}
+			if (stairCaseDoorByFloor['down'].includes(gameContext.activeFloor)) {
+				gameContext.activeFloor = gameContext.activeFloor + 1
+				cameraPosition.targetY = floorCameraPoints[`floor${gameContext.activeFloor}`].y
+			}
 		}
 
-		if (floorNumber < 13) {
+		const leftStairCaseDoorHandler = () => {
+			if (gameContext.activeFloor === 1) {
+				return
+			}
+			if (stairCaseDoorByFloor['up'].includes(gameContext.activeFloor)) {
+				gameContext.activeFloor = gameContext.activeFloor - 1
+				cameraPosition.targetY = floorCameraPoints[`floor${gameContext.activeFloor}`].y
+			}
+		}
+
+
+		if (stairCaseDoorByFloor['up'].includes(floorNumber)) {
+			leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
+			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
+		} else {
+			let closedDoorHandler = () => {}
+			if (floorNumber === 1) {
+				closedDoorHandler = () => {
+					// you need key
+				}
+			}
+			leftStairCaseDoor = closedDoorStairCase(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
+		}
+
+		if (stairCaseDoorByFloor['down'].includes(floorNumber)) {
 			rightStairCaseDoor = stairCaseDoor(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
 			arrowUp = wallText(canvasSize.width / 8 * 6.5 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 + 122 / 2, 'DOWN', 'rgb(255,0,0)', 20)
+		} else {
+			rightStairCaseDoor = closedDoorStairCase(track, rightStairCaseDoorHandler)(canvasSize.width / 8 * 6.5, floorStartY + canvasSize.height / 2 - 20)
+		}
+
+		if (floorNumber === 1) {
+			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key is on the floor 13')
 		}
 
 		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
@@ -62,37 +89,26 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 				leftElevatorWithDoors.update(dt)
 				middleElevatorWithDoors.update(dt)
 				rightElevatorWithDoors.update(dt)
-				leftStairCaseDoor.update()
 
-				if (floorNumber < 13) {
-					rightStairCaseDoor.update()
-					arrowUp.update()
-				}
-				if (floorNumber === 1) {
-					floorText.update()
-				}
-				if (floorNumber > 1) {
-					arrowDown.update()
-				}
+				leftStairCaseDoor?.update()
+
+				rightStairCaseDoor?.update()
+				arrowUp?.update()
+				floorText?.update()
+				arrowDown?.update()
 
 			},
 			render() {
 				background.render()
 				wallFloorNumber.render()
+				leftStairCaseDoor?.render()
 				leftElevatorWithDoors.render()
 				middleElevatorWithDoors.render()
 				rightElevatorWithDoors.render()
-				leftStairCaseDoor.render()
-				if (floorNumber < 13) {
-					rightStairCaseDoor.render()
-					arrowUp.render()
-				}
-				if (floorNumber === 1) {
-					floorText.render()
-				}
-				if (floorNumber > 1) {
-					arrowDown.render()
-				}
+				rightStairCaseDoor?.render()
+				floorText?.render()
+				arrowUp?.render()
+				arrowDown?.render()
 			},
 		}
 	}
