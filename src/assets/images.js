@@ -5,6 +5,17 @@ export const images = {
 	arrowDown: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAACXBIWXMAAAbJAAAGyQGh53xXAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAJpJREFUGNONkLEOAVEQRc9MNiH8y5b73jb+Qq8XpcYH8AEapU4j8QNaYlel16uUgsi+UZCNTVaY+uTce0fMjF8XuW2eoqHzDVDIItPQFmQCSB1kQldz79cgs1qNsNg5t1SAW6s5BI5VBSdEBu9IOMTxJWA9oPjQ9LMkOZcQwN77jQnTVwrzLE1W5brK1BBGherjfm2MK9X++dMTkT8s5B1wNg4AAAAASUVORK5CYII=',
 }
 
+const colors = [
+	'rgb(255,77,77)',
+	'rgb(238,209,115)',
+	'rgb(136,255,77)',
+	'rgb(190,77,255)',
+	'rgb(77,255,154)',
+	'rgb(222,255,77)',
+	'rgb(168,102,0)',
+	'rgb(148,201,255)',
+]
+
 export const imageSizes = {
 	door: {
 		width: 45,
@@ -429,9 +440,9 @@ export const diamonds = (itemState, context, track) => [
 	'green-diamond',
 	'key',
 	'lock',
-].map(id => {
+].map((id, i) => {
 	const color = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
-	const artefact = artefactSprite(itemState[id], context, id, color)
+	const artefact = artefactSprite(itemState[id], context, id, colors[i])
 
 	track(artefact)
 

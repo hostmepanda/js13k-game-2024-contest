@@ -162,63 +162,55 @@ const gameElementsState = {
 	[artefactId.yellowGem]: {
 		type: artefactId.yellowGem,
 		id: 1,
-		// currentFloor: 2,
-		currentFloor: 1,
+		currentFloor: 2,
 		...defaultArtefactProps,
 	},
 	[artefactId.diamond]: {
 		type: artefactId.diamond,
 		id: 2,
-		// currentFloor: 6,
-		currentFloor: 1,
+		currentFloor: 6,
 		...defaultArtefactProps,
 	},
 	[artefactId.redGem]: {
 		type: artefactId.redGem,
 		id: 3,
-		// currentFloor: 9,
+		currentFloor: 9,
 		...defaultArtefactProps,
 	},
 	[artefactId.yellowDiamond]: {
 		type: artefactId.yellowDiamond,
 		id: 4,
-		// currentFloor: 11,
-		currentFloor: 1,
+		currentFloor: 11,
 		...defaultArtefactProps,
 	},
 	[artefactId.orangeDiamond]: {
 		type: artefactId.orangeDiamond,
 		id: 5,
-		currentFloor: 1,
-		// currentFloor: 3,
+		currentFloor: 3,
 		...defaultArtefactProps,
 	},
 	[artefactId.emerald]: {
 		type: artefactId.emerald,
 		id: 6,
-		currentFloor: 1,
-		// currentFloor: 7,
+		currentFloor: 7,
 		...defaultArtefactProps,
 	},
 	[artefactId.redDiamond]: {
 		type: artefactId.redDiamond,
 		id: 7,
-		// currentFloor: 10,
-		currentFloor: 1,
+		currentFloor: 10,
 		...defaultArtefactProps,
 	},
 	[artefactId.greenDiamond]: {
 		type: artefactId.greenDiamond,
 		id: 8,
-		currentFloor: 1,
-		// currentFloor: 12,
+		currentFloor: 12,
 		...defaultArtefactProps,
 	},
 	[artefactId.key]: {
 		type: artefactId.key,
 		id: 9,
-		currentFloor: 1,
-		// currentFloor: 13,
+		currentFloor: 13,
 		...defaultArtefactProps,
 	},
 	[artefactId.lock]: {
@@ -349,16 +341,18 @@ function launchRound() {
 		this.text = `Time left: ${minutes}.${seconds}`
 	}
 
-	const gameOverText = wallText(canvasSize.width / 2, canvasSize.height / 2, 'Game Over', 'rgb(255,0,0)', 50)
-	const gameCompletedText = wallText(canvasSize.width / 2, canvasSize.height / 2, 'Game Completed', 'rgb(0,255,0)', 50)
-	const congratulationsText = wallText(canvasSize.width / 2, canvasSize.height / 2 + 50, 'Congratulations!', 'rgb(0,255,0)', 40)
-	const youManagedToEscape = wallText(canvasSize.width / 2, canvasSize.height / 2 + 100, 'You managed to escape!', 'rgb(0,255,0)', 40)
+	const greenColor = 'rgb(0,255,0)'
 
-	const credits = wallText(canvasSize.width / 2, canvasSize.height / 2 + 150, 'Created by: @hostmepanda', 'rgb(0,255,0)', 20)
-	const forJS13K = wallText(canvasSize.width / 2, canvasSize.height / 2 + 180, 'For JS13K 2024 https://js13kgames.com/', 'rgb(0,255,0)', 20)
-	const imagesUsedByFreePik = wallText(canvasSize.width / 2, canvasSize.height / 2 + 210, 'Images used by Freepik', 'rgb(0,255,0)', 20)
-	const webSiteFreePik = wallText(canvasSize.width / 2, canvasSize.height / 2 + 240, 'http://www.freepik.com', 'rgb(0,255,0)', 20)
-	const hostMePanda = wallText(canvasSize.width / 2, canvasSize.height / 2 + 270, 'https://github.com/hostmepanda', 'rgb(0,255,0)', 20)
+	const gameOverText = wallText(canvasSize.width / 2, canvasSize.height / 2, 'Game Over', 'rgb(255,0,0)', 50)
+	const gameCompletedText = wallText(canvasSize.width / 2, canvasSize.height / 2, 'Game Completed', greenColor, 50)
+	const congratulationsText = wallText(canvasSize.width / 2, canvasSize.height / 2 + 50, 'Congratulations!', greenColor, 40)
+	const youManagedToEscape = wallText(canvasSize.width / 2, canvasSize.height / 2 + 100, 'You managed to escape!', greenColor, 40)
+
+	const credits = wallText(canvasSize.width / 2, canvasSize.height / 2 + 150, 'Created by: @hostmepanda', greenColor, 20)
+	const forJS13K = wallText(canvasSize.width / 2, canvasSize.height / 2 + 180, 'For JS13K 2024 https://js13kgames.com/', greenColor, 20)
+	const imagesUsedByFreePik = wallText(canvasSize.width / 2, canvasSize.height / 2 + 210, 'Images used by Freepik', greenColor, 20)
+	const webSiteFreePik = wallText(canvasSize.width / 2, canvasSize.height / 2 + 240, 'http://www.freepik.com', greenColor, 20)
+	const hostMePanda = wallText(canvasSize.width / 2, canvasSize.height / 2 + 270, 'https://github.com/hostmepanda', greenColor, 20)
 
 	let timerPassed = 0
 	let loop = GameLoop({
