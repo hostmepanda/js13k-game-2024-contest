@@ -802,7 +802,6 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 				buttonToEnable.color = 'rgb(37,148,0)'
 			})
 
-			console.log('--activatedElevatorState?.stopFloors?.unblockedFloors', JSON.stringify(activatedElevatorState?.stopFloors?.unblockedFloors))
 			activatedElevatorState?.stopFloors?.unblockedFloors?.forEach((allowedFloor) => {
 				const buttonToEnable = buttons.find(({id}) => id === allowedFloor)
 				if (buttonToEnable) {
