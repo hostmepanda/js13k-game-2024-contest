@@ -430,9 +430,6 @@ function launchRound() {
 			})
 
 			itemSlots.update()
-			// console.log('--gameElementsState', JSON.stringify(gameElementsState, null, 1))
-			// console.log('--elevatorsState', JSON.stringify(elevatorsState, null, 1))
-			console.log('--gameContext', JSON.stringify(gameContext, null, 1))
 
 			Object.values(elevatorsState).forEach((state) => {
 				if (state.isMoving) {
