@@ -5,10 +5,10 @@ import {
 	elevatorFrame,
 	emeraldSprite,
 	gemSprite,
-	greenDiamondSprite,
+	greenDiamondSprite, keySprite, lockSprite,
 	orangeDiamondSprite,
 	redDiamondSprite,
-	redGemSprite,
+	redGemSprite, wallText,
 	yellowDiamondSprite
 } from './assets/images'
 import {floorColor} from './colors'
@@ -84,6 +84,8 @@ const artefactId = {
 	emerald: 'emerald',
 	redDiamond: 'red-diamond',
 	greenDiamond: 'green-diamond',
+	key: 'key',
+	lock: 'lock',
 }
 
 const gameElementsState = {
@@ -191,6 +193,32 @@ const gameElementsState = {
 		x: 180,
 		y: 550,
 	},
+	[artefactId.key]: {
+		type: artefactId.key,
+		id: 9,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 180,
+		y: 550,
+	},
+	[artefactId.lock]: {
+		type: artefactId.lock,
+		id: 10,
+		isPicked: false,
+		isUsed: false,
+		currentFloor: 1,
+		slotNumber: null,
+		isDragging: false,
+		placedToHole: false,
+		elevatorPlaced: null,
+		x: 120,
+		y: 340,
+	},
 }
 
 const gameArtefactsStates = [
@@ -218,12 +246,21 @@ const gameArtefactsStates = [
 	}, {
 		item: greenDiamondSprite(gameElementsState[artefactId.greenDiamond], renderContext)(track)(),
 		type: artefactId.greenDiamond,
+	}, {
+		item: keySprite(gameElementsState[artefactId.key], renderContext)(track)(),
+		type: artefactId.key,
+	}, {
+		item: lockSprite(gameElementsState[artefactId.lock], renderContext)(track)(),
+		type: artefactId.lock,
 	}
 ]
 
 function launchRound() {
 	const gameContext = {
 		activeFloor: 1,
+		isGameCompleted: false,
+		isGameOver: false,
+		timeLeft: 60 * 13,
 	}
 	let draggingElementId = null
 	const slotBoxState = {
@@ -409,9 +446,30 @@ function launchRound() {
 
 	const floorDashboardInElevator = elevatorFloorSelector(context, elevatorsState, gameContext, canvasSize, gameElementsState, slotCoordinates)()
 
+	const timLeftDisplay = wallText(680, 10, `Time left: 13.00`, 'rgb(255,175,51)', 20)
+
+	timLeftDisplay.update = function () {
+		const minutes = Math.floor(gameContext.timeLeft / 60)
+		const seconds = Math.floor(gameContext.timeLeft - minutes * 60)
+		this.text = `Time left: ${minutes}.${seconds}`
+	}
+
+	const gameOverText = wallText(canvasSize.width / 2, canvasSize.height / 2, 'Game Over', 'rgb(255,0,0)', 50)
+	const gameCompletedText = wallText(canvasSize.width / 2, canvasSize.height / 2, 'Game Completed', 'rgb(0,255,0)', 50)
+	const congratulationsText = wallText(canvasSize.width / 2, canvasSize.height / 2 + 50, 'Congratulations!', 'rgb(0,255,0)', 40)
+	const youManagedToEscape = wallText(canvasSize.width / 2, canvasSize.height / 2 + 100, 'You managed to escape!', 'rgb(0,255,0)', 40)
+
+	const credits = wallText(canvasSize.width / 2, canvasSize.height / 2 + 150, 'Created by: @hostmepanda', 'rgb(0,255,0)', 20)
+	const forJS13K = wallText(canvasSize.width / 2, canvasSize.height / 2 + 180, 'For JS13K 2024 https://js13kgames.com/', 'rgb(0,255,0)', 20)
+	const imagesUsedByFreePik = wallText(canvasSize.width / 2, canvasSize.height / 2 + 210, 'Images used by Freepik', 'rgb(0,255,0)', 20)
+	const webSiteFreePik = wallText(canvasSize.width / 2, canvasSize.height / 2 + 240, 'http://www.freepik.com', 'rgb(0,255,0)', 20)
+	const hostMePanda = wallText(canvasSize.width / 2, canvasSize.height / 2 + 270, 'https://github.com/hostmepanda', 'rgb(0,255,0)', 20)
+
 	let timerPassed = 0
 	let loop = GameLoop({
 		update(timeDiff) {
+			timLeftDisplay.update()
+
 			timerPassed += timeDiff
 
 			floorStages.forEach((floor) => {
@@ -577,8 +635,34 @@ function launchRound() {
 				cameraPosition.dy = 8
 				cameraPosition.y = cameraPosition.targetY
 			}
+
+			gameContext.timeLeft = gameContext.timeLeft - timeDiff
+
+			if (gameContext.timeLeft < 0) {
+				gameContext.isGameOver = true
+			}
 		},
 		render() {
+			if (gameContext.isGameOver) {
+				gameOverText.render()
+				credits.render()
+				forJS13K.render()
+				imagesUsedByFreePik.render()
+				webSiteFreePik.render()
+				hostMePanda.render()
+				return
+			}
+			if (gameContext.isGameCompleted) {
+				gameCompletedText.render()
+				congratulationsText.render()
+				youManagedToEscape.render()
+				credits.render()
+				forJS13K.render()
+				imagesUsedByFreePik.render()
+				webSiteFreePik.render()
+				hostMePanda.render()
+				return
+			}
 			const dashboardFloorSelectorOpenedState = Object.values(elevatorsState).find(({ isShowingFloorSelector }) => isShowingFloorSelector)
 
 			Object.entries(gameElementsState)
@@ -627,7 +711,7 @@ function launchRound() {
 				itemSlots.render()
 			}
 
-
+			timLeftDisplay.render()
 		}
 	});
 
