@@ -1,15 +1,9 @@
 import {GameLoop, init, initPointer, collides, pointerPressed, track} from 'kontra'
 import {
-	diamondSprite,
+	diamonds,
 	elevatorFloorSelector,
 	elevatorFrame,
-	emeraldSprite,
-	gemSprite,
-	greenDiamondSprite, keySprite, lockSprite,
-	orangeDiamondSprite,
-	redDiamondSprite,
-	redGemSprite, wallText,
-	yellowDiamondSprite
+	wallText,
 } from './assets/images'
 import {floorColor} from './colors'
 import {initFloor} from './static-elements/floor'
@@ -178,7 +172,8 @@ const gameElementsState = {
 		id: 1,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 2,
+		// currentFloor: 2,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -191,7 +186,8 @@ const gameElementsState = {
 		id: 2,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 6,
+		// currentFloor: 6,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -204,7 +200,8 @@ const gameElementsState = {
 		id: 3,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 9,
+		// currentFloor: 9,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -217,7 +214,8 @@ const gameElementsState = {
 		id: 4,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 11,
+		// currentFloor: 11,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -230,7 +228,8 @@ const gameElementsState = {
 		id: 5,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 3,
+		currentFloor: 1,
+		// currentFloor: 3,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -243,7 +242,8 @@ const gameElementsState = {
 		id: 6,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 7,
+		currentFloor: 1,
+		// currentFloor: 7,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -256,20 +256,22 @@ const gameElementsState = {
 		id: 7,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 10,
+		// currentFloor: 10,
+		currentFloor: 1,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
 		elevatorPlaced: null,
-		x: 330,
-		y: 550,
+		x: 130,
+		y: 350,
 	},
 	[artefactId.greenDiamond]: {
 		type: artefactId.greenDiamond,
 		id: 8,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 12,
+		currentFloor: 1,
+		// currentFloor: 12,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -282,7 +284,8 @@ const gameElementsState = {
 		id: 9,
 		isPicked: false,
 		isUsed: false,
-		currentFloor: 13,
+		currentFloor: 1,
+		// currentFloor: 13,
 		slotNumber: null,
 		isDragging: false,
 		placedToHole: false,
@@ -305,39 +308,7 @@ const gameElementsState = {
 	},
 }
 
-const gameArtefactsStates = [
-	{
-		item: gemSprite(gameElementsState[artefactId.yellowGem], elevatorsState)(track)(),
-		type: artefactId.yellowGem,
-	}, {
-		item: diamondSprite(gameElementsState[artefactId.diamond])(track)(),
-		type: artefactId.diamond,
-	}, {
-		item: redGemSprite(gameElementsState[artefactId.redGem], renderContext)(track)(),
-		type: artefactId.redGem,
-	}, {
-		item: yellowDiamondSprite(gameElementsState[artefactId.yellowDiamond], renderContext)(track)(),
-		type: artefactId.yellowDiamond,
-	}, {
-		item: orangeDiamondSprite(gameElementsState[artefactId.orangeDiamond], renderContext)(track)(),
-		type: artefactId.orangeDiamond,
-	}, {
-		item: emeraldSprite(gameElementsState[artefactId.emerald], renderContext)(track)(),
-		type: artefactId.emerald,
-	}, {
-		item: redDiamondSprite(gameElementsState[artefactId.redDiamond], renderContext)(track)(),
-		type: artefactId.redDiamond,
-	}, {
-		item: greenDiamondSprite(gameElementsState[artefactId.greenDiamond], renderContext)(track)(),
-		type: artefactId.greenDiamond,
-	}, {
-		item: keySprite(gameElementsState[artefactId.key], renderContext)(track)(),
-		type: artefactId.key,
-	}, {
-		item: lockSprite(gameElementsState[artefactId.lock], renderContext)(track)(),
-		type: artefactId.lock,
-	}
-]
+const gameArtefactsStates = diamonds(gameElementsState,context,track)
 
 function launchRound() {
 	const gameContext = {
@@ -346,6 +317,7 @@ function launchRound() {
 		isGameOver: false,
 		timeLeft: 60 * 13,
 	}
+
 	let draggingElementId = null
 	const slotBoxState = {
 		items: [],

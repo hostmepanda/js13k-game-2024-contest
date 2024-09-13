@@ -11,6 +11,7 @@
   "author": "hostmepanda",
   "license": "Apache-2.0",
   "dependencies": {
+    "esbuild": "^0.23.1",
     "kontra": "10.0.2",
     "phaser": "3.80.1"
   },
