@@ -60,12 +60,6 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			leftStairCaseDoor = stairCaseDoor(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
 			arrowDown = wallText(canvasSize.width / 15 + 45*2 / 2 + 5, floorStartY + canvasSize.height / 2 - 20 + 122 / 2, 'UP', 'rgb(255,0,0)', 20)
 		} else {
-			let closedDoorHandler = () => {}
-			if (floorNumber === 1) {
-				closedDoorHandler = () => {
-					// you need key
-				}
-			}
 			leftStairCaseDoor = closedDoorStairCase(track, leftStairCaseDoorHandler)(canvasSize.width / 15, floorStartY + canvasSize.height / 2 - 20)
 		}
 
@@ -80,31 +74,26 @@ export const initFloor = (canvasSize, floorAnkerPoints, color, textOnTheWall, fl
 			floorText = wallText(canvasSize.width / 2, floorStartY + 5 * canvasSize.height / 6, 'Key is on the floor 13')
 		}
 
-		const leftElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.left.x, elevatorCoordinates.left.y)
-		const middleElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y)
-		const rightElevatorWithDoors = elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
+		const elevatorGroups = [
+			elevator(track, renderContext, {}, elevatorsState.left, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.left.x, elevatorCoordinates.left.y),
+			elevator(track, renderContext, {}, elevatorsState.middle, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.middle.x, elevatorCoordinates.middle.y),
+			elevator(track, renderContext, {}, elevatorsState.right, pointer, floorStartY, gameContext, floorNumber, gameElementsState)(elevatorCoordinates.right.x, elevatorCoordinates.right.y)
+		]
 
 		return {
 			update(dt) {
-				leftElevatorWithDoors.update(dt)
-				middleElevatorWithDoors.update(dt)
-				rightElevatorWithDoors.update(dt)
-
+				elevatorGroups.map(elevator => elevator.update(dt))
 				leftStairCaseDoor?.update()
-
 				rightStairCaseDoor?.update()
 				arrowUp?.update()
 				floorText?.update()
 				arrowDown?.update()
-
 			},
 			render() {
 				background.render()
 				wallFloorNumber.render()
 				leftStairCaseDoor?.render()
-				leftElevatorWithDoors.render()
-				middleElevatorWithDoors.render()
-				rightElevatorWithDoors.render()
+				elevatorGroups.map(elevator => elevator.render())
 				rightStairCaseDoor?.render()
 				floorText?.render()
 				arrowUp?.render()

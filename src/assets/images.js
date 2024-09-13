@@ -374,12 +374,12 @@ export const artefactSprite = (itemState, context, type, color) => {
 			context.stroke();
 		} else if (type === 'lock') {
 			context.fillStyle = 'rgb(25,210,255)';
-			context.fillRect(this.x, this.y + 20, this.width, this.height);
+			context.fillRect(this.x, this.y + 8, this.width, this.height - 10);
 			context.beginPath();
-			context.moveTo(this.x + this.width / 4, this.y + 20); // Left side of shackle
-			context.lineTo(this.x + this.width / 4, this.y - 20); // Top of shackle
-			context.lineTo(this.x + (3 * this.width) / 4, this.y - 20); // Right side of shackle
-			context.lineTo(this.x + (3 * this.width) / 4, this.y + 20); // Back to body
+			context.moveTo(this.x + this.width / 4, this.y + 8); // Left side of shackle
+			context.lineTo(this.x + this.width / 4, this.y - 8); // Top of shackle
+			context.lineTo(this.x + (3 * this.width) / 4, this.y - 8); // Right side of shackle
+			context.lineTo(this.x + (3 * this.width) / 4, this.y + 8); // Back to body
 			context.strokeStyle = 'black';
 			context.lineWidth = 5;
 			context.stroke();
