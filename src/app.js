@@ -426,10 +426,13 @@ function launchRound() {
 			timerPassed += timeDiff
 
 			floorStages.forEach((floor) => {
-				floor.update(timeDiff)
+				floor.update(timeDiff, gameContext)
 			})
 
 			itemSlots.update()
+			// console.log('--gameElementsState', JSON.stringify(gameElementsState, null, 1))
+			// console.log('--elevatorsState', JSON.stringify(elevatorsState, null, 1))
+			console.log('--gameContext', JSON.stringify(gameContext, null, 1))
 
 			Object.values(elevatorsState).forEach((state) => {
 				if (state.isMoving) {
@@ -444,7 +447,6 @@ function launchRound() {
 					state.currentFloor = 1
 				} else if (state.item.y <= floorPointsSwitcher.floor2 - 5 && state.item.y >= floorPointsSwitcher.floor1 + 5) {
 					state.currentFloor = 2
-					gameContext.activeFloor = 1
 				} else if (state.item.y <= floorPointsSwitcher.floor3 - 5 && state.item.y >= floorPointsSwitcher.floor2 + 5) {
 					state.currentFloor = 3
 				} else if (state.item.y <= floorPointsSwitcher.floor4 - 5 && state.item.y >= floorPointsSwitcher.floor3 + 5) {
