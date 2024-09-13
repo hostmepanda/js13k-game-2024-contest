@@ -322,6 +322,7 @@ export const elevator = (track, context, handler, state, pointer, yAxisShift, ga
 
 			const shouldOpenDoors = state.stopFloors?.[isItemPlaced?.type]?.includes(gameContext.activeFloor)
 				|| state.stopFloors.default.includes(gameContext.activeFloor)
+				|| state.stopFloors.unblockedFloors.includes(gameContext.activeFloor)
 
 			if ((distanceTopArrow < 15 || distanceBottomArrow < 15)  && pointerPressed('left') && !state.isOpen && !state.isClosing && !state.isMoving) {
 				state.targetFloor = gameContext.activeFloor
@@ -734,7 +735,6 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 		anchor: {x: 0.5, y: 0.5},
 		color: 'rgb(255,175,51)',
 
-		// text properties
 		text: {
 			text: 'EXIT',
 			color: 'black',
@@ -742,7 +742,6 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 			anchor: {x: 0.5, y: 0.5}
 		},
 
-		// pointer events
 		onDown() {
 			this.y += 3;
 			Object.values(gameElementsState).filter(({ picked }) => picked).forEach(({ type, slotNumber, x, y, ...rest }) => {
@@ -779,7 +778,6 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 	})
 
 	itemHole.render = function() {
-		// // Draw the rectangle (or the outer shape)
 		context.fillStyle = this.color;
 		context.beginPath();
 		context.arc(this.x + this.width / 2, this.y + this.height / 2, this.radius, 0, Math.PI * 2);
@@ -800,8 +798,18 @@ export const elevatorFloorSelector = (context, state, gameContext, canvasSize, g
 
 			activatedElevatorState?.stopFloors?.default?.forEach((allowedFloor) => {
 				const buttonToEnable = buttons.find(({id}) => id === allowedFloor)
-				buttonToEnable.color = 'rgb(37,148,0)'
 				buttonToEnable.isEnabled = true
+				buttonToEnable.color = 'rgb(37,148,0)'
+			})
+
+			console.log('--activatedElevatorState?.stopFloors?.unblockedFloors', JSON.stringify(activatedElevatorState?.stopFloors?.unblockedFloors))
+			activatedElevatorState?.stopFloors?.unblockedFloors?.forEach((allowedFloor) => {
+				const buttonToEnable = buttons.find(({id}) => id === allowedFloor)
+				if (buttonToEnable) {
+					buttonToEnable.color = 'rgb(37,148,0)'
+					buttonToEnable.isEnabled = true
+
+				}
 			})
 
 			spriteGroup.map(sprite => sprite.update())

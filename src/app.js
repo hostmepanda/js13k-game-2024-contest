@@ -84,6 +84,7 @@ const artefactId = {
 
 const gameElementsState = {
 	[artefactId.yellowGem]: {
+		type: artefactId.yellowGem,
 		id: 1,
 		isPicked: false,
 		isUsed: false,
@@ -96,6 +97,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	[artefactId.diamond]: {
+		type: artefactId.diamond,
 		id: 2,
 		isPicked: false,
 		isUsed: false,
@@ -108,6 +110,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	[artefactId.redGem]: {
+		type: artefactId.redGem,
 		id: 3,
 		isPicked: false,
 		isUsed: false,
@@ -120,6 +123,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	[artefactId.yellowDiamond]: {
+		type: artefactId.yellowDiamond,
 		id: 4,
 		isPicked: false,
 		isUsed: false,
@@ -132,6 +136,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	[artefactId.orangeDiamond]: {
+		type: artefactId.orangeDiamond,
 		id: 5,
 		isPicked: false,
 		isUsed: false,
@@ -144,6 +149,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	[artefactId.emerald]: {
+		type: artefactId.emerald,
 		id: 6,
 		isPicked: false,
 		isUsed: false,
@@ -156,6 +162,7 @@ const gameElementsState = {
 		y: 450,
 	},
 	[artefactId.redDiamond]: {
+		type: artefactId.redDiamond,
 		id: 7,
 		isPicked: false,
 		isUsed: false,
@@ -168,6 +175,7 @@ const gameElementsState = {
 		y: 550,
 	},
 	[artefactId.greenDiamond]: {
+		type: artefactId.greenDiamond,
 		id: 8,
 		isPicked: false,
 		isUsed: false,
@@ -256,6 +264,7 @@ function launchRound() {
 			shouldWaitForCameraUpdate: false,
 			stopFloors: {
 				default: [1],
+				unblockedFloors: [],
 				[artefactId.yellowGem]: [6],
 				[artefactId.redGem]: [12],
 				[artefactId.orangeDiamond]: [7],
@@ -282,6 +291,7 @@ function launchRound() {
 			shouldWaitForCameraUpdate: false,
 			stopFloors: {
 				default: [],
+				unblockedFloors: [],
 				[artefactId.diamond]: [3, 5, 8],
 				[artefactId.greenDiamond]: [10],
 			}
@@ -307,6 +317,7 @@ function launchRound() {
 			shouldWaitForCameraUpdate: false,
 			stopFloors: {
 				default: [],
+				unblockedFloors: [],
 				[artefactId.yellowDiamond]: [4],
 				[artefactId.yellowGem]: [1],
 				[artefactId.emerald]: [9],
@@ -506,6 +517,12 @@ function launchRound() {
 						if(collides(item, floorDashboardInElevator.group.at(-1))) {
 							gameElementsState[item.type].placedToHole = true
 							gameElementsState[item.type].elevatorPlaced = dashboardFloorSelectorOpenedState.id
+
+							if (dashboardFloorSelectorOpenedState.stopFloors[item.type]?.length > 0) {
+								const unblockedFloorsSet = new Set([...dashboardFloorSelectorOpenedState.stopFloors.unblockedFloors])
+								unblockedFloorsSet.add(dashboardFloorSelectorOpenedState.stopFloors[item.type])
+								dashboardFloorSelectorOpenedState.stopFloors.unblockedFloors = Array.from(unblockedFloorsSet.values()).flat(2)
+							}
 						}
 					}
 
